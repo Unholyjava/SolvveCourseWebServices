@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import java.util.UUID;
 
 @Entity
-public class Film {
+public class Actor {
 
     @Id
     @GeneratedValue
@@ -14,7 +14,6 @@ public class Film {
 
     private String name;
     private String info;
-    private int ratingFull;
 
     public UUID getId() {
         return id;
@@ -35,12 +34,5 @@ public class Film {
     }
     public void setInfo(String info) {
         this.info = info;
-    }
-
-    public int getRatingFull() {
-        return ratingFull;
-    }
-    public void setRatingFull(int ratingFull) {
-        this.ratingFull = ratingFull;
     }
 }

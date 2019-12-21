@@ -1,0 +1,39 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="create tables" author="dbadmin">
+        <createTable tableName="film">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(40)"/>
+            <column name="info" type="varchar(1000)"/>
+            <column name="rating_full" type="int"/>
+        </createTable>
+
+        <createTable tableName="actor">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(40)"/>
+            <column name="info" type="varchar(1000)"/>
+        </createTable>
+
+        <createTable tableName="user">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="nick_name" type="varchar(40)"/>
+            <column name="login" type="varchar(20)"/>
+            <column name="password" type="varchar(20)"/>
+        </createTable>
+
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,20 +1,18 @@
 package com.coursesolvve.webproject.domain;
 
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.UUID;
 
-@Entity
-public class Film {
+//@Entity
+public class Maker {
 
     @Id
     @GeneratedValue
     private UUID id;
 
     private String name;
-    private String info;
-    private int ratingFull;
+    private Film film;
 
     public UUID getId() {
         return id;
@@ -30,17 +28,10 @@ public class Film {
         this.name = name;
     }
 
-    public String getInfo() {
-        return info;
+    public Film getFilm() {
+        return film;
     }
-    public void setInfo(String info) {
-        this.info = info;
-    }
-
-    public int getRatingFull() {
-        return ratingFull;
-    }
-    public void setRatingFull(int ratingFull) {
-        this.ratingFull = ratingFull;
+    public void setFilm(Film film) {
+        this.film = film;
     }
 }

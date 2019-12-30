@@ -6,6 +6,7 @@ public class ActorReadDTO {
     private UUID id;
     private String name;
     private String info;
+    private int rating;
 
     public UUID getId() {
         return id;
@@ -26,5 +27,12 @@ public class ActorReadDTO {
     }
     public void setInfo(String info) {
         this.info = info;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+    public void setRating(int rating) {
+        this.rating = rating;
     }
 }

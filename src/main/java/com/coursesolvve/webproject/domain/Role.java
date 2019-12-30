@@ -13,6 +13,7 @@ public class Role {
 
     private String name;
     private String info;
+    private int rating;
     private Film film;
     private Actor actor;
 
@@ -37,6 +38,13 @@ public class Role {
         this.info = info;
     }
 
+    public int getRating() {
+        return rating;
+    }
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
     public Film getFilm() {
         return film;
     }
@@ -47,7 +55,5 @@ public class Role {
     public Actor getActor() {
         return actor;
     }
-    public void setActor(Actor actor) {
-        this.actor = actor;
-    }
+    public void setActor(Actor actor) { this.actor = actor; }
 }

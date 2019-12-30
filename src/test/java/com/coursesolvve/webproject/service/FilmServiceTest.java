@@ -1,7 +1,9 @@
 package com.coursesolvve.webproject.service;
 
 import com.coursesolvve.webproject.domain.Film;
+import com.coursesolvve.webproject.domain.Genres;
 import com.coursesolvve.webproject.dto.FilmReadDTO;
+import com.coursesolvve.webproject.exception.EntityNotFoundException;
 import com.coursesolvve.webproject.repository.FilmRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -11,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
+import java.util.UUID;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -30,9 +33,17 @@ public class FilmServiceTest {
         film.setName("Film_test1");
         film.setInfo("This information is only for test");
         film.setRatingFull(10);
+        film.setTextMistake(false);
+        film.setRelease(true);
+        film.setGenres(Genres.ACTION);
         film = filmRepository.save(film);
 
         FilmReadDTO readDTO = filmService.getFilm(film.getId());
         Assertions.assertThat(readDTO).isEqualToComparingFieldByField(film);
+    }
+
+    @Test(expected = EntityNotFoundException.class)
+    public void testGetFilmWrongId() {
+        filmService.getFilm(UUID.randomUUID());
     }
 }

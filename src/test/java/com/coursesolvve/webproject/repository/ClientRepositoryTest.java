@@ -1,6 +1,6 @@
 package com.coursesolvve.webproject.repository;
 
-import com.coursesolvve.webproject.domain.User;
+import com.coursesolvve.webproject.domain.Client;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,18 +14,18 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Sql(statements = "delete from user", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+@Sql(statements = "delete from client", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 @ActiveProfiles("test")
-public class UserRepositoryTest {
+public class ClientRepositoryTest {
 
     @Autowired
-    private UserRepository userRepository;
+    private ClientRepository clientRepository;
 
     @Test
     public void testSave() {
-        User c = new User();
-        c = userRepository.save(c);
+        Client c = new Client();
+        c = clientRepository.save(c);
         assertNotNull(c.getId());
-        assertTrue(userRepository.findById(c.getId()).isPresent());
+        assertTrue(clientRepository.findById(c.getId()).isPresent());
     }
 }

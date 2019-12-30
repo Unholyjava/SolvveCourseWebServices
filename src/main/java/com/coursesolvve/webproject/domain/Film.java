@@ -1,8 +1,6 @@
 package com.coursesolvve.webproject.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
@@ -15,6 +13,11 @@ public class Film {
     private String name;
     private String info;
     private int ratingFull;
+    private boolean textMistake;
+    private boolean release;
+
+    @Enumerated(EnumType.STRING)
+    private Genres genres;
 
     public UUID getId() {
         return id;
@@ -42,5 +45,26 @@ public class Film {
     }
     public void setRatingFull(int ratingFull) {
         this.ratingFull = ratingFull;
+    }
+
+    public boolean isTextMistake() {
+        return textMistake;
+    }
+    public void setTextMistake(boolean textMistake) {
+        this.textMistake = textMistake;
+    }
+
+    public boolean isRelease() {
+        return release;
+    }
+    public void setRelease(boolean release) {
+        this.release = release;
+    }
+
+    public Genres getGenres() {
+        return genres;
+    }
+    public void setGenres(Genres genres) {
+        this.genres = genres;
     }
 }

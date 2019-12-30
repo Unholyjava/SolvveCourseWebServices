@@ -1,6 +1,9 @@
 package com.coursesolvve.webproject.controller;
 
+import com.coursesolvve.webproject.domain.Film;
+import com.coursesolvve.webproject.domain.Genres;
 import com.coursesolvve.webproject.dto.FilmReadDTO;
+import com.coursesolvve.webproject.exception.EntityNotFoundException;
 import com.coursesolvve.webproject.service.FilmService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
@@ -37,6 +40,9 @@ public class FilmControllerTest {
         film.setName("Film_test1");
         film.setInfo("This information is only for test");
         film.setRatingFull(10);
+        film.setTextMistake(false);
+        film.setRelease(true);
+        film.setGenres(Genres.ACTION);
 
         Mockito.when(filmService.getFilm(film.getId())).thenReturn(film);
 
@@ -49,5 +55,26 @@ public class FilmControllerTest {
         Assertions.assertThat(actualFilm).isEqualToComparingFieldByField(film);
 
         Mockito.verify(filmService).getFilm(film.getId());
+    }
+
+    @Test
+    public void testGetFilmWrongId() throws Exception {
+        UUID wrongId = UUID.randomUUID();
+
+        EntityNotFoundException exception = new EntityNotFoundException(Film.class, wrongId);
+        Mockito.when(filmService.getFilm(wrongId)).thenThrow(exception);
+
+        String resultJson = mvc.perform(get("/api/v1/films/{id}", wrongId))
+                .andExpect(status().isNotFound())
+                .andReturn().getResponse().getContentAsString();
+    }
+
+    @Test
+    public void testGetFilmWrongUuidId() throws Exception {
+        UUID id = UUID.randomUUID();
+        String wrongUuidId = id.toString() + id.toString();
+        String resultJson = mvc.perform(get("/api/v1/films/{id}", wrongUuidId))
+                .andExpect(status().isBadRequest())
+                .andReturn().getResponse().getContentAsString();
     }
 }

@@ -1,6 +1,8 @@
 package com.coursesolvve.webproject.controller;
 
+import com.coursesolvve.webproject.domain.Actor;
 import com.coursesolvve.webproject.dto.ActorReadDTO;
+import com.coursesolvve.webproject.exception.EntityNotFoundException;
 import com.coursesolvve.webproject.service.ActorService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
@@ -36,6 +38,7 @@ public class ActorControllerTest {
         actor.setId(UUID.randomUUID());
         actor.setName("Actor_test1");
         actor.setInfo("This information is only for test");
+        actor.setRating(3);
 
         Mockito.when(actorService.getActor(actor.getId())).thenReturn(actor);
 
@@ -48,5 +51,26 @@ public class ActorControllerTest {
         Assertions.assertThat(actualActor).isEqualToComparingFieldByField(actor);
 
         Mockito.verify(actorService).getActor(actor.getId());
+    }
+
+    @Test
+    public void testGetActorWrongId() throws Exception {
+        UUID wrongId = UUID.randomUUID();
+
+        EntityNotFoundException exception = new EntityNotFoundException(Actor.class, wrongId);
+        Mockito.when(actorService.getActor(wrongId)).thenThrow(exception);
+
+        String resultJson = mvc.perform(get("/api/v1/actors/{id}", wrongId))
+                .andExpect(status().isNotFound())
+                .andReturn().getResponse().getContentAsString();
+    }
+
+    @Test
+    public void testGetActorWrongUuidId() throws Exception {
+        UUID id = UUID.randomUUID();
+        String wrongUuidId = id.toString() + id.toString();
+        String resultJson = mvc.perform(get("/api/v1/actors/{id}", wrongUuidId))
+                .andExpect(status().isBadRequest())
+                .andReturn().getResponse().getContentAsString();
     }
 }

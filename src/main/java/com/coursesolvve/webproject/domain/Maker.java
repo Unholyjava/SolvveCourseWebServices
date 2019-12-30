@@ -12,6 +12,7 @@ public class Maker {
     private UUID id;
 
     private String name;
+    private Creator creator;
     private Film film;
 
     public UUID getId() {
@@ -26,6 +27,13 @@ public class Maker {
     }
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Creator getCreator() {
+        return creator;
+    }
+    public void setCreator(Creator creator) {
+        this.creator = creator;
     }
 
     public Film getFilm() {

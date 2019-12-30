@@ -2,6 +2,7 @@ package com.coursesolvve.webproject.service;
 
 import com.coursesolvve.webproject.domain.Film;
 import com.coursesolvve.webproject.dto.FilmReadDTO;
+import com.coursesolvve.webproject.exception.EntityNotFoundException;
 import com.coursesolvve.webproject.repository.FilmRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,9 @@ public class FilmService {
     private FilmRepository filmRepository;
 
     public FilmReadDTO getFilm(UUID id) {
-        Film film = filmRepository.findById(id).get();
+        Film film = filmRepository.findById(id).orElseThrow(() -> {
+            throw new EntityNotFoundException(Film.class, id);
+        });
         return toRead(film);
     }
 
@@ -24,6 +27,9 @@ public class FilmService {
         filmReadDTO.setName(film.getName());
         filmReadDTO.setInfo(film.getInfo());
         filmReadDTO.setRatingFull(film.getRatingFull());
+        filmReadDTO.setTextMistake(film.isTextMistake());
+        filmReadDTO.setRelease(film.isRelease());
+        filmReadDTO.setGenres(film.getGenres());
         return filmReadDTO;
     }
 }

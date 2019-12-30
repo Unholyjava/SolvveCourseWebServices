@@ -14,6 +14,7 @@ public class Actor {
 
     private String name;
     private String info;
+    private int rating;
 
     public UUID getId() {
         return id;
@@ -29,10 +30,13 @@ public class Actor {
         this.name = name;
     }
 
-    public String getInfo() {
-        return info;
-    }
+    public String getInfo() { return info; }
     public void setInfo(String info) {
         this.info = info;
     }
+
+    public int getRating() {
+        return rating;
+    }
+    public void setRating(int rating) { this.rating = rating; }
 }

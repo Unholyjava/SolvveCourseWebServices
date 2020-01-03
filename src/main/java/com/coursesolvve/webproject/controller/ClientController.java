@@ -1,12 +1,11 @@
 package com.coursesolvve.webproject.controller;
 
+import com.coursesolvve.webproject.dto.ClientCreateDTO;
 import com.coursesolvve.webproject.dto.ClientReadDTO;
 import com.coursesolvve.webproject.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.UUID;
 
 @RestController
@@ -19,5 +18,10 @@ public class ClientController {
     @GetMapping("/{id}")
     public ClientReadDTO getClient(@PathVariable UUID id) {
         return clientService.getClient(id);
+    }
+
+    @PostMapping
+    public ClientReadDTO createClient(@RequestBody ClientCreateDTO createDTO) {
+        return clientService.createClient(createDTO);
     }
 }

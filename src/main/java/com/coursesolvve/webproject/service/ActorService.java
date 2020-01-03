@@ -1,11 +1,13 @@
 package com.coursesolvve.webproject.service;
 
 import com.coursesolvve.webproject.domain.Actor;
+import com.coursesolvve.webproject.dto.ActorCreateDTO;
 import com.coursesolvve.webproject.dto.ActorReadDTO;
 import com.coursesolvve.webproject.exception.EntityNotFoundException;
 import com.coursesolvve.webproject.repository.ActorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.UUID;
 
 @Service
@@ -28,5 +30,14 @@ public class ActorService {
         actorReadDTO.setInfo(actor.getInfo());
         actorReadDTO.setRating(actor.getRating());
         return actorReadDTO;
+    }
+
+    public ActorReadDTO createActor(ActorCreateDTO create) {
+        Actor actor = new Actor();
+        actor.setName(create.getName());
+        actor.setInfo(create.getInfo());
+        actor.setRating(create.getRating());
+        actor = actorRepository.save(actor);
+        return toRead(actor);
     }
 }

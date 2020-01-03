@@ -1,12 +1,11 @@
 package com.coursesolvve.webproject.controller;
 
+import com.coursesolvve.webproject.dto.FilmCreateDTO;
 import com.coursesolvve.webproject.dto.FilmReadDTO;
 import com.coursesolvve.webproject.service.FilmService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.UUID;
 
 @RestController
@@ -19,5 +18,10 @@ public class FilmController {
     @GetMapping("/{id}")
     public FilmReadDTO getFilm(@PathVariable UUID id) {
         return filmService.getFilm(id);
+    }
+
+    @PostMapping
+    public FilmReadDTO createFilm(@RequestBody FilmCreateDTO createDTO) {
+        return filmService.createFilm(createDTO);
     }
 }

@@ -1,11 +1,13 @@
 package com.coursesolvve.webproject.service;
 
 import com.coursesolvve.webproject.domain.Client;
+import com.coursesolvve.webproject.dto.ClientCreateDTO;
 import com.coursesolvve.webproject.dto.ClientReadDTO;
 import com.coursesolvve.webproject.exception.EntityNotFoundException;
 import com.coursesolvve.webproject.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.UUID;
 
 @Service
@@ -31,5 +33,17 @@ public class ClientService {
         clientReadDTO.setActiveRating(client.getActiveRating());
         clientReadDTO.setAccess(client.getAccess());
         return clientReadDTO;
+    }
+
+    public ClientReadDTO createClient(ClientCreateDTO create) {
+        Client client = new Client();
+        client.setNickName(create.getNickName());
+        client.setLogin(create.getLogin());
+        client.setTrust(create.isTrust());
+        client.setReviewRating(create.getReviewRating());
+        client.setActiveRating(create.getActiveRating());
+        client.setAccess(create.getAccess());
+        client = clientRepository.save(client);
+        return toRead(client);
     }
 }

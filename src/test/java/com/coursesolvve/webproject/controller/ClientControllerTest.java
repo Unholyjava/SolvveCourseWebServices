@@ -2,6 +2,7 @@ package com.coursesolvve.webproject.controller;
 
 import com.coursesolvve.webproject.domain.Access;
 import com.coursesolvve.webproject.domain.Client;
+import com.coursesolvve.webproject.dto.ClientCreateDTO;
 import com.coursesolvve.webproject.dto.ClientReadDTO;
 import com.coursesolvve.webproject.exception.EntityNotFoundException;
 import com.coursesolvve.webproject.service.ClientService;
@@ -13,11 +14,14 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+
 import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -76,5 +80,35 @@ public class ClientControllerTest {
         String resultJson = mvc.perform(get("/api/v1/clients/{id}", wrongUuidId))
                 .andExpect(status().isBadRequest())
                 .andReturn().getResponse().getContentAsString();
+    }
+
+    @Test
+    public void testCreateClient() throws Exception {
+        ClientCreateDTO create = new ClientCreateDTO();
+        create.setNickName("Client_test2_create");
+        create.setLogin("ClientLogin_test2_create");
+        create.setTrust(true);
+        create.setReviewRating(4);
+        create.setActiveRating(5);
+        create.setAccess(Access.REG_USER);
+
+        ClientReadDTO read = new ClientReadDTO();
+        read.setId(UUID.randomUUID());
+        read.setNickName("Client_test2_create");
+        read.setLogin("ClientLogin_test2_create");
+        read.setTrust(true);
+        read.setReviewRating(4);
+        read.setActiveRating(5);
+        read.setAccess(Access.REG_USER);
+
+        Mockito.when(clientService.createClient(create)).thenReturn(read);
+        String resultJson = mvc.perform(post("/api/v1/clients")
+                .content(objectMapper.writeValueAsString(create))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        ClientReadDTO actualClient = objectMapper.readValue(resultJson, ClientReadDTO.class);
+        Assertions.assertThat(actualClient).isEqualToComparingFieldByField(read);
     }
 }

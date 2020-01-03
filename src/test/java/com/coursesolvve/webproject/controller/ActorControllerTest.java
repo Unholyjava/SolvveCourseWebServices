@@ -1,6 +1,7 @@
 package com.coursesolvve.webproject.controller;
 
 import com.coursesolvve.webproject.domain.Actor;
+import com.coursesolvve.webproject.dto.ActorCreateDTO;
 import com.coursesolvve.webproject.dto.ActorReadDTO;
 import com.coursesolvve.webproject.exception.EntityNotFoundException;
 import com.coursesolvve.webproject.service.ActorService;
@@ -12,11 +13,14 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+
 import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -72,5 +76,29 @@ public class ActorControllerTest {
         String resultJson = mvc.perform(get("/api/v1/actors/{id}", wrongUuidId))
                 .andExpect(status().isBadRequest())
                 .andReturn().getResponse().getContentAsString();
+    }
+
+    @Test
+    public void testCreateActor() throws Exception {
+        ActorCreateDTO create = new ActorCreateDTO();
+        create.setName("Actor_test2_create");
+        create.setInfo("This information is only for test2_create");
+        create.setRating(3);
+
+        ActorReadDTO read = new ActorReadDTO();
+        read.setId(UUID.randomUUID());
+        read.setName("Actor_test1");
+        read.setInfo("This information is only for test");
+        read.setRating(3);
+
+        Mockito.when(actorService.createActor(create)).thenReturn(read);
+        String resultJson = mvc.perform(post("/api/v1/actors")
+                .content(objectMapper.writeValueAsString(create))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        ActorReadDTO actualActor = objectMapper.readValue(resultJson, ActorReadDTO.class);
+        Assertions.assertThat(actualActor).isEqualToComparingFieldByField(read);
     }
 }

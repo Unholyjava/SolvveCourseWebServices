@@ -74,12 +74,15 @@ public class FilmControllerTest {
     }
 
     @Test
-    public void testGetFilmWrongUuidId() throws Exception {
+    public void testGetFilmWrongUuidFormat() throws Exception {
         UUID id = UUID.randomUUID();
-        String wrongUuidId = id.toString() + id.toString();
-        String resultJson = mvc.perform(get("/api/v1/films/{id}", wrongUuidId))
+        String wrongUuidFormat = id.toString() + id.toString();
+        String resultJson = mvc.perform(get("/api/v1/films/{id}", wrongUuidFormat))
                 .andExpect(status().isBadRequest())
                 .andReturn().getResponse().getContentAsString();
+        System.out.println("Status: " + mvc.perform(get("/api/v1/films/{id}", wrongUuidFormat))
+                .andExpect(status().isBadRequest())
+                .andReturn().getResponse().getStatus());
     }
 
     @Test

@@ -8,6 +8,7 @@ import com.coursesolvve.webproject.exception.EntityNotFoundException;
 import com.coursesolvve.webproject.service.FilmService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -17,11 +18,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.util.UUID;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -71,6 +74,7 @@ public class FilmControllerTest {
         String resultJson = mvc.perform(get("/api/v1/films/{id}", wrongId))
                 .andExpect(status().isNotFound())
                 .andReturn().getResponse().getContentAsString();
+        Assert.assertTrue(resultJson.contains(exception.getMessage()));
     }
 
     @Test
@@ -78,11 +82,12 @@ public class FilmControllerTest {
         UUID id = UUID.randomUUID();
         String wrongUuidFormat = id.toString() + id.toString();
         String resultJson = mvc.perform(get("/api/v1/films/{id}", wrongUuidFormat))
+                .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isBadRequest())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andReturn().getResponse().getContentAsString();
-        System.out.println("Status: " + mvc.perform(get("/api/v1/films/{id}", wrongUuidFormat))
-                .andExpect(status().isBadRequest())
-                .andReturn().getResponse().getStatus());
+        Assert.assertTrue(resultJson.contains("BAD_REQUEST"));
+        System.out.println(resultJson);
     }
 
     @Test

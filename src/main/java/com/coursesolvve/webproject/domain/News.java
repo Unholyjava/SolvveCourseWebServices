@@ -1,10 +1,15 @@
 package com.coursesolvve.webproject.domain;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.UUID;
 
 //@Entity
+@Getter
+@Setter
 public class News {
 
     @Id
@@ -12,42 +17,7 @@ public class News {
     private UUID id;
 
     private String info;
-    private boolean mistake;
-    private int rating;
+    private boolean newsMistake;
+    private int likeRating;
     private Client client;
-
-    public UUID getId() {
-        return id;
-    }
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getInfo() {
-        return info;
-    }
-    public void setInfo(String info) {
-        this.info = info;
-    }
-
-    public boolean isMistake() {
-        return mistake;
-    }
-    public void setMistake(boolean mistake) {
-        this.mistake = mistake;
-    }
-
-    public int getRating() {
-        return rating;
-    }
-    public void setRating(int rating) {
-        this.rating = rating;
-    }
-
-    public Client getClient() {
-        return client;
-    }
-    public void setClient(Client client) {
-        this.client = client;
-    }
 }

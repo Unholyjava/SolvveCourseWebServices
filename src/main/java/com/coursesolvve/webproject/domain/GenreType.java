@@ -1,6 +1,6 @@
 package com.coursesolvve.webproject.domain;
 
-public enum Genres {
+public enum GenreType {
     ACTION,
     ADVENTURE,
     ANIMATION,

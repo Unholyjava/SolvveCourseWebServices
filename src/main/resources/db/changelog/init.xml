@@ -9,29 +9,38 @@
 
     <changeSet id="create tables" author="dbadmin">
 
+        <createTable tableName="genre">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="genre_type" type="varchar(15)"/>
+        </createTable>
+        <sql> ALTER TABLE genre ADD CONSTRAINT check_typeGenres CHECK (genre_type = 'ACTION'
+            OR genre_type = 'ADVENTURE' OR genre_type = 'ANIMATION' OR genre_type = 'COMEDY'
+            OR genre_type = 'DOCUMENTARY' OR genre_type = 'DRAMA' OR genre_type = 'HORROR'
+            OR genre_type = 'ROMANCE' OR genre_type = 'SCIENCE')
+        </sql>
+
         <createTable tableName="film">
             <column name="id" type="uuid">
                 <constraints primaryKey="true"/>
             </column>
             <column name="name" type="varchar(40)"/>
             <column name="info" type="varchar(1000)"/>
-            <column name="rating_full" type="int"/>
+            <column name="rating_full" type="double"/>
             <column name="text_mistake" type="boolean"/>
             <column name="release" type="boolean"/>
-            <column name="genres" type="varchar(15)"/>
-        </createTable>
-        <sql>ALTER TABLE film ADD CONSTRAINT check_filmGenres CHECK (genres = 'ACTION'
-            OR genres = 'ADVENTURE' OR genres = 'ANIMATION' OR genres = 'COMEDY'
-            OR genres = 'DOCUMENTARY' OR genres = 'DRAMA' OR genres = 'HORROR'
-            OR genres = 'ROMANCE' OR genres = 'SCIENCE')</sql>
+         </createTable>
 
         <createTable tableName="actor">
             <column name="id" type="uuid">
                 <constraints primaryKey="true"/>
             </column>
             <column name="name" type="varchar(40)"/>
+            <column name="patronymic" type="varchar(40)"/>
+            <column name="surname" type="varchar(40)"/>
             <column name="info" type="varchar(1000)"/>
-            <column name="rating" type="int"/>
+            <column name="rating_full" type="double"/>
         </createTable>
 
         <createTable tableName="client">
@@ -40,14 +49,28 @@
             </column>
             <column name="nick_name" type="varchar(40)"/>
             <column name="login" type="varchar(20)"/>
+            <column name="mail" type="varchar(20)"/>
+            <column name="name" type="varchar(20)"/>
+            <column name="patronymic" type="varchar(20)"/>
+            <column name="surname" type="varchar(20)"/>
             <column name="trust" type="boolean"/>
             <column name="review_rating" type="int"/>
             <column name="active_rating" type="int"/>
-            <column name="access" type="varchar(20)"/>
+            <column name="is_block" type="boolean"/>
         </createTable>
-        <sql>ALTER TABLE client ADD CONSTRAINT check_access CHECK (access = 'ADMIN'
-            OR access = 'CONTENT_MANAGER' OR access = 'MODERATOR' OR access = 'REG_USER'
-            OR access = 'UNREG_USER')</sql>
+
+        <createTable tableName="maker">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(20)"/>
+            <column name="patronymic" type="varchar(20)"/>
+            <column name="surname" type="varchar(20)"/>
+            <column name="creator_type" type="varchar(15)"/>
+        </createTable>
+        <sql> ALTER TABLE maker ADD CONSTRAINT check_typeMaker CHECK (creator_type = 'DIRECTOR'
+            OR creator_type = 'PRODUCER')
+        </sql>
 
     </changeSet>
 

@@ -1,10 +1,14 @@
 package com.coursesolvve.webproject.domain;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
 import java.util.UUID;
 
-//@Entity
+@Entity
+@Getter
+@Setter
 public class Maker {
 
     @Id
@@ -12,34 +16,9 @@ public class Maker {
     private UUID id;
 
     private String name;
-    private Creator creator;
-    private Film film;
+    private String patronymic;
+    private String surname;
 
-    public UUID getId() {
-        return id;
-    }
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Creator getCreator() {
-        return creator;
-    }
-    public void setCreator(Creator creator) {
-        this.creator = creator;
-    }
-
-    public Film getFilm() {
-        return film;
-    }
-    public void setFilm(Film film) {
-        this.film = film;
-    }
+    @Enumerated(EnumType.STRING)
+    private CreatorType creatorType;
 }

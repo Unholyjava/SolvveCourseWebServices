@@ -1,8 +1,8 @@
 package com.coursesolvve.webproject.controller;
 
 import com.coursesolvve.webproject.domain.Film;
-import com.coursesolvve.webproject.domain.Genres;
 import com.coursesolvve.webproject.dto.FilmCreateDTO;
+import com.coursesolvve.webproject.dto.FilmPatchDTO;
 import com.coursesolvve.webproject.dto.FilmReadDTO;
 import com.coursesolvve.webproject.exception.EntityNotFoundException;
 import com.coursesolvve.webproject.service.FilmService;
@@ -22,13 +22,12 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
 import java.util.UUID;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(controllers = FilmController.class)
+@WebMvcTest(FilmController.class)
 public class FilmControllerTest {
 
     @Autowired
@@ -42,26 +41,30 @@ public class FilmControllerTest {
 
     @Test
     public void testGetFilm() throws Exception {
-        FilmReadDTO film = new FilmReadDTO();
-        film.setId(UUID.randomUUID());
-        film.setName("Film_test1");
-        film.setInfo("This information is only for test");
-        film.setRatingFull(10);
-        film.setTextMistake(false);
-        film.setRelease(true);
-        film.setGenres(Genres.ACTION);
+        FilmReadDTO read = createFilmRead();
 
-        Mockito.when(filmService.getFilm(film.getId())).thenReturn(film);
+        Mockito.when(filmService.getFilm(read.getId())).thenReturn(read);
 
-        String resultJson = mvc.perform(get("/api/v1/films/{id}", film.getId()))
+        String resultJson = mvc.perform(get("/api/v1/films/{id}", read.getId()))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 
         System.out.println(resultJson);
         FilmReadDTO actualFilm = objectMapper.readValue(resultJson, FilmReadDTO.class);
-        Assertions.assertThat(actualFilm).isEqualToComparingFieldByField(film);
+        Assertions.assertThat(actualFilm).isEqualToComparingFieldByField(read);
 
-        Mockito.verify(filmService).getFilm(film.getId());
+        Mockito.verify(filmService).getFilm(read.getId());
+    }
+
+    private FilmReadDTO createFilmRead() {
+        FilmReadDTO read = new FilmReadDTO();
+        read.setId(UUID.randomUUID());
+        read.setName("Film_test1");
+        read.setInfo("This information is only for test");
+        read.setRatingFull(10);
+        read.setTextMistake(false);
+        read.setRelease(true);
+        return read;
     }
 
     @Test
@@ -98,16 +101,8 @@ public class FilmControllerTest {
         create.setRatingFull(10);
         create.setTextMistake(false);
         create.setRelease(true);
-        create.setGenres(Genres.ACTION);
 
-        FilmReadDTO read = new FilmReadDTO();
-        read.setId(UUID.randomUUID());
-        read.setName("Film_test2_create");
-        read.setInfo("This information is only for test2_create");
-        read.setRatingFull(10);
-        read.setTextMistake(false);
-        read.setRelease(true);
-        read.setGenres(Genres.ACTION);
+        FilmReadDTO read = createFilmRead();
 
         Mockito.when(filmService.createFilm(create)).thenReturn(read);
         String resultJson = mvc.perform(post("/api/v1/films")
@@ -118,5 +113,37 @@ public class FilmControllerTest {
 
         FilmReadDTO actualFilm = objectMapper.readValue(resultJson, FilmReadDTO.class);
         Assertions.assertThat(actualFilm).isEqualToComparingFieldByField(read);
+    }
+
+    @Test
+    public void testPatchFilm() throws Exception {
+        FilmPatchDTO patchDTO = new FilmPatchDTO();
+        patchDTO.setName("Film_test2_create");
+        patchDTO.setInfo("This information is only for test2_create");
+        patchDTO.setRatingFull(10);
+        patchDTO.setTextMistake(false);
+        patchDTO.setRelease(true);
+
+        FilmReadDTO read = createFilmRead();
+
+        Mockito.when(filmService.patchFilm(read.getId(), patchDTO)).thenReturn(read);
+
+        String resultJson = mvc.perform(patch("/api/v1/films/{id}", read.getId().toString())
+                .content(objectMapper.writeValueAsString(patchDTO))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        FilmReadDTO actualFilm = objectMapper.readValue(resultJson, FilmReadDTO.class);
+        Assert.assertEquals(read, actualFilm);
+    }
+
+    @Test
+    public void testDeleteFilm() throws Exception {
+        UUID id = UUID.randomUUID();
+
+        mvc.perform(delete("/api/v1/films/{id}", id.toString())).andExpect(status().isOk());
+
+        Mockito.verify(filmService).deleteFilm(id);
     }
 }

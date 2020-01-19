@@ -1,6 +1,6 @@
 package com.coursesolvve.webproject.domain;
 
-public enum Creator {
+public enum CreatorType {
     DIRECTOR,
     PRODUCER
 }

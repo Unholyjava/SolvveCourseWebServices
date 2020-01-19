@@ -1,13 +1,14 @@
 package com.coursesolvve.webproject.controller;
 
-import com.coursesolvve.webproject.domain.Access;
 import com.coursesolvve.webproject.domain.Client;
 import com.coursesolvve.webproject.dto.ClientCreateDTO;
+import com.coursesolvve.webproject.dto.ClientPatchDTO;
 import com.coursesolvve.webproject.dto.ClientReadDTO;
 import com.coursesolvve.webproject.exception.EntityNotFoundException;
 import com.coursesolvve.webproject.service.ClientService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -20,12 +21,11 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.UUID;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(controllers = ClientController.class)
+@WebMvcTest(ClientController.class)
 public class ClientControllerTest {
 
     @Autowired
@@ -39,26 +39,35 @@ public class ClientControllerTest {
 
     @Test
     public void testGetClient() throws Exception {
-        ClientReadDTO client = new ClientReadDTO();
-        client.setId(UUID.randomUUID());
-        client.setNickName("Client_test1");
-        client.setLogin("ClientLogin_test1");
-        client.setTrust(true);
-        client.setReviewRating(4);
-        client.setActiveRating(5);
-        client.setAccess(Access.REG_USER);
+        ClientReadDTO read = createClientRead();
 
-        Mockito.when(clientService.getClient(client.getId())).thenReturn(client);
+        Mockito.when(clientService.getClient(read.getId())).thenReturn(read);
 
-        String resultJson = mvc.perform(get("/api/v1/clients/{id}", client.getId()))
+        String resultJson = mvc.perform(get("/api/v1/clients/{id}", read.getId()))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 
         System.out.println(resultJson);
         ClientReadDTO actualUser = objectMapper.readValue(resultJson, ClientReadDTO.class);
-        Assertions.assertThat(actualUser).isEqualToComparingFieldByField(client);
+        Assertions.assertThat(actualUser).isEqualToComparingFieldByField(read);
 
-        Mockito.verify(clientService).getClient(client.getId());
+        Mockito.verify(clientService).getClient(read.getId());
+    }
+
+    private ClientReadDTO createClientRead() {
+        ClientReadDTO read = new ClientReadDTO();
+        read.setId(UUID.randomUUID());
+        read.setNickName("Client_test1");
+        read.setLogin("ClientLogin_test1");
+        read.setMail("test_mail");
+        read.setName("test_Name");
+        read.setPatronymic("test_Patronymic");
+        read.setSurname("test_Surname");
+        read.setTrust(true);
+        read.setReviewRating(4);
+        read.setActiveRating(5);
+        read.setBlock(false);
+        return read;
     }
 
     @Test
@@ -87,19 +96,16 @@ public class ClientControllerTest {
         ClientCreateDTO create = new ClientCreateDTO();
         create.setNickName("Client_test2_create");
         create.setLogin("ClientLogin_test2_create");
+        create.setMail("test_mail");
+        create.setName("test_Name");
+        create.setPatronymic("test_Patronymic");
+        create.setSurname("test_Surname");
         create.setTrust(true);
         create.setReviewRating(4);
         create.setActiveRating(5);
-        create.setAccess(Access.REG_USER);
+        create.setBlock(false);
 
-        ClientReadDTO read = new ClientReadDTO();
-        read.setId(UUID.randomUUID());
-        read.setNickName("Client_test2_create");
-        read.setLogin("ClientLogin_test2_create");
-        read.setTrust(true);
-        read.setReviewRating(4);
-        read.setActiveRating(5);
-        read.setAccess(Access.REG_USER);
+        ClientReadDTO read = createClientRead();
 
         Mockito.when(clientService.createClient(create)).thenReturn(read);
         String resultJson = mvc.perform(post("/api/v1/clients")
@@ -110,5 +116,42 @@ public class ClientControllerTest {
 
         ClientReadDTO actualClient = objectMapper.readValue(resultJson, ClientReadDTO.class);
         Assertions.assertThat(actualClient).isEqualToComparingFieldByField(read);
+    }
+
+    @Test
+    public void testPatchClient() throws Exception {
+        ClientPatchDTO patchDTO = new ClientPatchDTO();
+        patchDTO.setNickName("Client_test2");
+        patchDTO.setLogin("ClientLogin_test2");
+        patchDTO.setMail("test_mail");
+        patchDTO.setName("test_Name");
+        patchDTO.setPatronymic("test_Patronymic");
+        patchDTO.setSurname("test_Surname");
+        patchDTO.setTrust(false);
+        patchDTO.setReviewRating(2);
+        patchDTO.setActiveRating(5);
+        patchDTO.setBlock(false);
+
+        ClientReadDTO read = createClientRead();
+
+        Mockito.when(clientService.patchClient(read.getId(), patchDTO)).thenReturn(read);
+
+        String resultJson = mvc.perform(patch("/api/v1/clients/{id}", read.getId().toString())
+                .content(objectMapper.writeValueAsString(patchDTO))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        ClientReadDTO actualClient = objectMapper.readValue(resultJson, ClientReadDTO.class);
+        Assert.assertEquals(read, actualClient);
+    }
+
+    @Test
+    public void testDeleteClient() throws Exception {
+        UUID id = UUID.randomUUID();
+
+        mvc.perform(delete("/api/v1/clients/{id}", id.toString())).andExpect(status().isOk());
+
+        Mockito.verify(clientService).deleteClient(id);
     }
 }

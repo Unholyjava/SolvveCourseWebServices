@@ -1,6 +1,7 @@
 package com.coursesolvve.webproject.controller;
 
 import com.coursesolvve.webproject.dto.FilmCreateDTO;
+import com.coursesolvve.webproject.dto.FilmPatchDTO;
 import com.coursesolvve.webproject.dto.FilmReadDTO;
 import com.coursesolvve.webproject.service.FilmService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,5 +24,15 @@ public class FilmController {
     @PostMapping
     public FilmReadDTO createFilm(@RequestBody FilmCreateDTO createDTO) {
         return filmService.createFilm(createDTO);
+    }
+
+    @PatchMapping("/{id}")
+    public FilmReadDTO patchFilm(@PathVariable UUID id, @RequestBody FilmPatchDTO patch) {
+        return filmService.patchFilm(id, patch);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteFilm(@PathVariable UUID id) {
+        filmService.deleteFilm(id);
     }
 }

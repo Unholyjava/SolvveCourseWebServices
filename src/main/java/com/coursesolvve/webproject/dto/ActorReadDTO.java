@@ -1,38 +1,20 @@
 package com.coursesolvve.webproject.dto;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.UUID;
 
+@Getter
+@Setter
+@EqualsAndHashCode
 public class ActorReadDTO {
     private UUID id;
     private String name;
+    private String patronymic;
+    private String surname;
     private String info;
-    private int rating;
-
-    public UUID getId() {
-        return id;
-    }
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getInfo() {
-        return info;
-    }
-    public void setInfo(String info) {
-        this.info = info;
-    }
-
-    public int getRating() {
-        return rating;
-    }
-    public void setRating(int rating) {
-        this.rating = rating;
-    }
+    private double ratingFull;
 }
+

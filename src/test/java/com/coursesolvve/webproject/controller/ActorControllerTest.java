@@ -2,11 +2,13 @@ package com.coursesolvve.webproject.controller;
 
 import com.coursesolvve.webproject.domain.Actor;
 import com.coursesolvve.webproject.dto.ActorCreateDTO;
+import com.coursesolvve.webproject.dto.ActorPatchDTO;
 import com.coursesolvve.webproject.dto.ActorReadDTO;
 import com.coursesolvve.webproject.exception.EntityNotFoundException;
 import com.coursesolvve.webproject.service.ActorService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -19,12 +21,11 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.UUID;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(controllers = ActorController.class)
+@WebMvcTest(ActorController.class)
 public class ActorControllerTest {
 
     @Autowired
@@ -38,23 +39,30 @@ public class ActorControllerTest {
 
     @Test
     public void testGetActor() throws Exception {
-        ActorReadDTO actor = new ActorReadDTO();
-        actor.setId(UUID.randomUUID());
-        actor.setName("Actor_test1");
-        actor.setInfo("This information is only for test");
-        actor.setRating(3);
+        ActorReadDTO read = createActorRead();
 
-        Mockito.when(actorService.getActor(actor.getId())).thenReturn(actor);
+        Mockito.when(actorService.getActor(read.getId())).thenReturn(read);
 
-        String resultJson = mvc.perform(get("/api/v1/actors/{id}", actor.getId()))
+        String resultJson = mvc.perform(get("/api/v1/actors/{id}", read.getId()))
                 .andExpect(status().isOk())
                 .andReturn().getResponse().getContentAsString();
 
         System.out.println(resultJson);
         ActorReadDTO actualActor = objectMapper.readValue(resultJson, ActorReadDTO.class);
-        Assertions.assertThat(actualActor).isEqualToComparingFieldByField(actor);
+        Assertions.assertThat(actualActor).isEqualToComparingFieldByField(read);
 
-        Mockito.verify(actorService).getActor(actor.getId());
+        Mockito.verify(actorService).getActor(read.getId());
+    }
+
+    private ActorReadDTO createActorRead() {
+        ActorReadDTO read = new ActorReadDTO();
+        read.setId(UUID.randomUUID());
+        read.setName("Actor_test1");
+        read.setPatronymic("Actor_Patronymic");
+        read.setSurname("Actor_Surname");
+        read.setInfo("This information is only for test");
+        read.setRatingFull(3);
+        return read;
     }
 
     @Test
@@ -82,14 +90,12 @@ public class ActorControllerTest {
     public void testCreateActor() throws Exception {
         ActorCreateDTO create = new ActorCreateDTO();
         create.setName("Actor_test2_create");
+        create.setPatronymic("Actor_Patronymic");
+        create.setSurname("Actor_Surname");
         create.setInfo("This information is only for test2_create");
-        create.setRating(3);
+        create.setRatingFull(3);
 
-        ActorReadDTO read = new ActorReadDTO();
-        read.setId(UUID.randomUUID());
-        read.setName("Actor_test1");
-        read.setInfo("This information is only for test");
-        read.setRating(3);
+        ActorReadDTO read = createActorRead();
 
         Mockito.when(actorService.createActor(create)).thenReturn(read);
         String resultJson = mvc.perform(post("/api/v1/actors")
@@ -100,5 +106,37 @@ public class ActorControllerTest {
 
         ActorReadDTO actualActor = objectMapper.readValue(resultJson, ActorReadDTO.class);
         Assertions.assertThat(actualActor).isEqualToComparingFieldByField(read);
+    }
+
+    @Test
+    public void testPatchActor() throws Exception {
+        ActorPatchDTO patchDTO = new ActorPatchDTO();
+        patchDTO.setName("Actor_test2_create");
+        patchDTO.setPatronymic("Actor_Patronymic");
+        patchDTO.setSurname("Actor_Surname");
+        patchDTO.setInfo("This information is only for test2_create");
+        patchDTO.setRatingFull(3);
+
+        ActorReadDTO read = createActorRead();
+
+        Mockito.when(actorService.patchActor(read.getId(), patchDTO)).thenReturn(read);
+
+        String resultJson = mvc.perform(patch("/api/v1/actors/{id}", read.getId().toString())
+                .content(objectMapper.writeValueAsString(patchDTO))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        ActorReadDTO actualActor = objectMapper.readValue(resultJson, ActorReadDTO.class);
+        Assert.assertEquals(read, actualActor);
+    }
+
+    @Test
+    public void testDeleteActor() throws Exception {
+        UUID id = UUID.randomUUID();
+
+        mvc.perform(delete("/api/v1/actors/{id}", id.toString())).andExpect(status().isOk());
+
+        Mockito.verify(actorService).deleteActor(id);
     }
 }

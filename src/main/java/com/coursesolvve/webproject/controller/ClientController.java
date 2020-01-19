@@ -1,6 +1,7 @@
 package com.coursesolvve.webproject.controller;
 
 import com.coursesolvve.webproject.dto.ClientCreateDTO;
+import com.coursesolvve.webproject.dto.ClientPatchDTO;
 import com.coursesolvve.webproject.dto.ClientReadDTO;
 import com.coursesolvve.webproject.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,5 +24,15 @@ public class ClientController {
     @PostMapping
     public ClientReadDTO createClient(@RequestBody ClientCreateDTO createDTO) {
         return clientService.createClient(createDTO);
+    }
+
+    @PatchMapping("/{id}")
+    public ClientReadDTO patchClient(@PathVariable UUID id, @RequestBody ClientPatchDTO patch) {
+        return clientService.patchClient(id, patch);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteClient(@PathVariable UUID id) {
+        clientService.deleteClient(id);
     }
 }

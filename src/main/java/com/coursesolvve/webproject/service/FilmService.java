@@ -2,6 +2,7 @@ package com.coursesolvve.webproject.service;
 
 import com.coursesolvve.webproject.domain.Film;
 import com.coursesolvve.webproject.dto.FilmCreateDTO;
+import com.coursesolvve.webproject.dto.FilmPatchDTO;
 import com.coursesolvve.webproject.dto.FilmReadDTO;
 import com.coursesolvve.webproject.exception.EntityNotFoundException;
 import com.coursesolvve.webproject.repository.FilmRepository;
@@ -17,10 +18,14 @@ public class FilmService {
     private FilmRepository filmRepository;
 
     public FilmReadDTO getFilm(UUID id) {
-        Film film = filmRepository.findById(id).orElseThrow(() -> {
+        Film film = getFilmRequired(id);
+        return toRead(film);
+    }
+
+    private Film getFilmRequired(UUID id) {
+        return filmRepository.findById(id).orElseThrow(() -> {
             throw new EntityNotFoundException(Film.class, id);
         });
-        return toRead(film);
     }
 
     private FilmReadDTO toRead(Film film) {
@@ -31,7 +36,6 @@ public class FilmService {
         filmReadDTO.setRatingFull(film.getRatingFull());
         filmReadDTO.setTextMistake(film.isTextMistake());
         filmReadDTO.setRelease(film.isRelease());
-        filmReadDTO.setGenres(film.getGenres());
         return filmReadDTO;
     }
 
@@ -42,8 +46,29 @@ public class FilmService {
         film.setRatingFull(create.getRatingFull());
         film.setTextMistake(create.isTextMistake());
         film.setRelease(create.isRelease());
-        film.setGenres(create.getGenres());
         film = filmRepository.save(film);
         return toRead(film);
+    }
+
+    public FilmReadDTO patchFilm(UUID id, FilmPatchDTO patch) {
+        Film film = getFilmRequired(id);
+
+        if (patch.getName() != null) {
+            film.setName(patch.getName());
+        }
+        if (patch.getInfo() != null) {
+            film.setInfo(patch.getInfo());
+        }
+
+        film.setRatingFull(patch.getRatingFull());
+        film.setRelease(patch.isRelease());
+        film.setTextMistake(patch.isTextMistake());
+
+        film = filmRepository.save(film);
+        return toRead(film);
+    }
+
+    public void deleteFilm(UUID id) {
+        filmRepository.delete(getFilmRequired(id));
     }
 }

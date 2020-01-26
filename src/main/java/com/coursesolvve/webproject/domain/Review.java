@@ -5,7 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.util.Date;
+import java.time.Instant;
 import java.util.UUID;
 
 //@Entity
@@ -23,7 +23,7 @@ public class Review {
     private String roleReview;
     private boolean reviewMistake;
     private int likeRating;
-    private Date dataReview;
+    private Instant dataReview;
     private Film film;
     private Client client;
     private Role role;

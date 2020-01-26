@@ -1,4 +1,4 @@
-package com.coursesolvve.webproject.dto;
+package com.coursesolvve.webproject.dto.client;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

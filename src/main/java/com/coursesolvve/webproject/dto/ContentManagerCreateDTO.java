@@ -3,10 +3,11 @@ package com.coursesolvve.webproject.dto;
 import lombok.Data;
 
 @Data
-public class ActorPatchDTO {
+public class ContentManagerCreateDTO {
+    private String nickName;
+    private String login;
+    private String mail;
     private String name;
     private String patronymic;
     private String surname;
-    private String info;
-    private double ratingFull;
 }

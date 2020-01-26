@@ -1,9 +1,10 @@
 package com.coursesolvve.webproject.service;
 
 import com.coursesolvve.webproject.domain.Film;
-import com.coursesolvve.webproject.dto.FilmCreateDTO;
-import com.coursesolvve.webproject.dto.FilmPatchDTO;
-import com.coursesolvve.webproject.dto.FilmReadDTO;
+import com.coursesolvve.webproject.dto.film.FilmCreateDTO;
+import com.coursesolvve.webproject.dto.film.FilmPatchDTO;
+import com.coursesolvve.webproject.dto.film.FilmPutDTO;
+import com.coursesolvve.webproject.dto.film.FilmReadDTO;
 import com.coursesolvve.webproject.exception.EntityNotFoundException;
 import com.coursesolvve.webproject.repository.FilmRepository;
 import org.assertj.core.api.Assertions;
@@ -38,17 +39,6 @@ public class FilmServiceTest {
         Assertions.assertThat(readDTO).isEqualToComparingFieldByField(film);
     }
 
-    private Film createFilm() {
-        Film film = new Film();
-        film.setName("Film_test1");
-        film.setInfo("This information is only for test");
-        film.setRatingFull(10);
-        film.setTextMistake(false);
-        film.setRelease(true);
-        film = filmRepository.save(film);
-        return film;
-    }
-
     @Test(expected = EntityNotFoundException.class)
     public void testGetFilmWrongId() {
         filmService.getFilm(UUID.randomUUID());
@@ -78,7 +68,7 @@ public class FilmServiceTest {
         FilmPatchDTO patch = new FilmPatchDTO();
         patch.setName("Film_test2_create");
         patch.setInfo("This information is only for test_create");
-        patch.setRatingFull(10);
+        patch.setRatingFull(10.0);
         patch.setTextMistake(false);
         patch.setRelease(true);
         FilmReadDTO read = filmService.patchFilm(film.getId(), patch);
@@ -98,14 +88,37 @@ public class FilmServiceTest {
 
         Assert.assertNotNull(read.getName());
         Assert.assertNotNull(read.getInfo());
+        Assert.assertNotNull(read.getRatingFull());
+        Assert.assertNotNull(read.isTextMistake());
+        Assert.assertNotNull(read.isRelease());
 
         Film filmAfterUpdate = filmRepository.findById(read.getId()).get();
 
         Assert.assertNotNull(filmAfterUpdate.getName());
         Assert.assertNotNull(filmAfterUpdate.getInfo());
+        Assert.assertNotNull(filmAfterUpdate.getRatingFull());
+        Assert.assertNotNull(filmAfterUpdate.isTextMistake());
+        Assert.assertNotNull(filmAfterUpdate.isRelease());
 
-        Assertions.assertThat(film).isEqualToIgnoringGivenFields(filmAfterUpdate,
-                "ratingFull", "textMistake", "release");
+        Assertions.assertThat(film).isEqualToComparingFieldByField(filmAfterUpdate);
+    }
+
+    @Test
+    public void testPutFilm() {
+        Film film = createFilm();
+
+        FilmPutDTO put = new FilmPutDTO();
+        put.setName("Film_test2_create");
+        put.setInfo("This information is only for test_create");
+        put.setRatingFull(10.0);
+        put.setTextMistake(false);
+        put.setRelease(true);
+        FilmReadDTO read = filmService.putFilm(film.getId(), put);
+
+        Assertions.assertThat(put).isEqualToComparingFieldByField(read);
+
+        film = filmRepository.findById(read.getId()).get();
+        Assertions.assertThat(film).isEqualToComparingFieldByField(read);
     }
 
     @Test
@@ -119,5 +132,16 @@ public class FilmServiceTest {
     @Test(expected = EntityNotFoundException.class)
     public void testDeleteFilmNotFound() {
         filmService.deleteFilm(UUID.randomUUID());
+    }
+
+    private Film createFilm() {
+        Film film = new Film();
+        film.setName("Film_test1");
+        film.setInfo("This information is only for test");
+        film.setRatingFull(10);
+        film.setTextMistake(false);
+        film.setRelease(true);
+        film = filmRepository.save(film);
+        return film;
     }
 }

@@ -1,9 +1,10 @@
 package com.coursesolvve.webproject.service;
 
 import com.coursesolvve.webproject.domain.Client;
-import com.coursesolvve.webproject.dto.ClientCreateDTO;
-import com.coursesolvve.webproject.dto.ClientPatchDTO;
-import com.coursesolvve.webproject.dto.ClientReadDTO;
+import com.coursesolvve.webproject.dto.client.ClientCreateDTO;
+import com.coursesolvve.webproject.dto.client.ClientPatchDTO;
+import com.coursesolvve.webproject.dto.client.ClientPutDTO;
+import com.coursesolvve.webproject.dto.client.ClientReadDTO;
 import com.coursesolvve.webproject.exception.EntityNotFoundException;
 import com.coursesolvve.webproject.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,22 +21,6 @@ public class ClientService {
     public ClientReadDTO getClient(UUID id) {
         Client client = getClientRequired(id);
         return toRead(client);
-    }
-
-    private ClientReadDTO toRead(Client client) {
-        ClientReadDTO clientReadDTO = new ClientReadDTO();
-        clientReadDTO.setId(client.getId());
-        clientReadDTO.setNickName(client.getNickName());
-        clientReadDTO.setLogin(client.getLogin());
-        clientReadDTO.setMail(client.getMail());
-        clientReadDTO.setName(client.getName());
-        clientReadDTO.setPatronymic(client.getPatronymic());
-        clientReadDTO.setSurname(client.getSurname());
-        clientReadDTO.setTrust(client.isTrust());
-        clientReadDTO.setReviewRating(client.getReviewRating());
-        clientReadDTO.setActiveRating(client.getActiveRating());
-        clientReadDTO.setBlock(client.isBlock());
-        return clientReadDTO;
     }
 
     public ClientReadDTO createClient(ClientCreateDTO create) {
@@ -75,13 +60,43 @@ public class ClientService {
         if (patch.getSurname() != null) {
             client.setSurname(patch.getSurname());
         }
-        client.setTrust(patch.isTrust());
-        client.setActiveRating(patch.getActiveRating());
-        client.setReviewRating(patch.getReviewRating());
-        client.setBlock(patch.isBlock());
+        if (patch.getTrust() != null) {
+            client.setTrust(patch.getTrust());
+        }
+        if (patch.getActiveRating() != null) {
+            client.setActiveRating(patch.getActiveRating());
+        }
+        if (patch.getReviewRating() != null) {
+            client.setReviewRating(patch.getReviewRating());
+        }
+        if (patch.getIsBlock() != null) {
+            client.setBlock(patch.getIsBlock());
+        }
 
         client = clientRepository.save(client);
         return toRead(client);
+    }
+
+    public ClientReadDTO putClient(UUID id, ClientPutDTO put) {
+        Client client = getClientRequired(id);
+
+        client.setNickName(put.getNickName());
+        client.setLogin(put.getLogin());
+        client.setMail(put.getMail());
+        client.setName(put.getName());
+        client.setPatronymic(put.getPatronymic());
+        client.setSurname(put.getSurname());
+        client.setTrust(put.getTrust());
+        client.setActiveRating(put.getActiveRating());
+        client.setReviewRating(put.getReviewRating());
+        client.setBlock(put.getIsBlock());
+
+        client = clientRepository.save(client);
+        return toRead(client);
+    }
+
+    public void deleteClient(UUID id) {
+        clientRepository.delete(getClientRequired(id));
     }
 
     private Client getClientRequired(UUID id) {
@@ -90,7 +105,19 @@ public class ClientService {
         });
     }
 
-    public void deleteClient(UUID id) {
-        clientRepository.delete(getClientRequired(id));
+    private ClientReadDTO toRead(Client client) {
+        ClientReadDTO clientReadDTO = new ClientReadDTO();
+        clientReadDTO.setId(client.getId());
+        clientReadDTO.setNickName(client.getNickName());
+        clientReadDTO.setLogin(client.getLogin());
+        clientReadDTO.setMail(client.getMail());
+        clientReadDTO.setName(client.getName());
+        clientReadDTO.setPatronymic(client.getPatronymic());
+        clientReadDTO.setSurname(client.getSurname());
+        clientReadDTO.setTrust(client.isTrust());
+        clientReadDTO.setReviewRating(client.getReviewRating());
+        clientReadDTO.setActiveRating(client.getActiveRating());
+        clientReadDTO.setBlock(client.isBlock());
+        return clientReadDTO;
     }
 }

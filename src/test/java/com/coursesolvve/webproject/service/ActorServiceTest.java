@@ -1,9 +1,10 @@
 package com.coursesolvve.webproject.service;
 
 import com.coursesolvve.webproject.domain.Actor;
-import com.coursesolvve.webproject.dto.ActorCreateDTO;
-import com.coursesolvve.webproject.dto.ActorPatchDTO;
-import com.coursesolvve.webproject.dto.ActorReadDTO;
+import com.coursesolvve.webproject.dto.actor.ActorCreateDTO;
+import com.coursesolvve.webproject.dto.actor.ActorPatchDTO;
+import com.coursesolvve.webproject.dto.actor.ActorPutDTO;
+import com.coursesolvve.webproject.dto.actor.ActorReadDTO;
 import com.coursesolvve.webproject.exception.EntityNotFoundException;
 import com.coursesolvve.webproject.repository.ActorRepository;
 import org.assertj.core.api.Assertions;
@@ -38,17 +39,6 @@ public class ActorServiceTest {
         Assertions.assertThat(readDTO).isEqualToComparingFieldByField(actor);
     }
 
-    private Actor createActor() {
-        Actor actor = new Actor();
-        actor.setName("Actor_test1");
-        actor.setPatronymic("Actor_Patronymic");
-        actor.setSurname("Actor_Surname");
-        actor.setInfo("This information is only for test");
-        actor.setRatingFull(2);
-        actor = actorRepository.save(actor);
-        return actor;
-    }
-
     @Test(expected = EntityNotFoundException.class)
     public void testGetActorWrongId() {
         actorService.getActor(UUID.randomUUID());
@@ -79,7 +69,7 @@ public class ActorServiceTest {
         patch.setPatronymic("Actor_Patronymic");
         patch.setSurname("Actor_Surname");
         patch.setInfo("This information is only for test2");
-        patch.setRatingFull(2);
+        patch.setRatingFull(2.0);
         ActorReadDTO read = actorService.patchActor(actor.getId(), patch);
 
         Assertions.assertThat(patch).isEqualToComparingFieldByField(read);
@@ -99,6 +89,7 @@ public class ActorServiceTest {
         Assert.assertNotNull(read.getPatronymic());
         Assert.assertNotNull(read.getSurname());
         Assert.assertNotNull(read.getInfo());
+        Assert.assertNotNull(read.getRatingFull());
 
         Actor actorAfterUpdate = actorRepository.findById(read.getId()).get();
 
@@ -106,9 +97,27 @@ public class ActorServiceTest {
         Assert.assertNotNull(actorAfterUpdate.getPatronymic());
         Assert.assertNotNull(actorAfterUpdate.getSurname());
         Assert.assertNotNull(actorAfterUpdate.getInfo());
+        Assert.assertNotNull(actorAfterUpdate.getRatingFull());
 
-        Assertions.assertThat(actor).isEqualToIgnoringGivenFields(actorAfterUpdate,
-                "ratingFull");
+        Assertions.assertThat(actor).isEqualToComparingFieldByField(actorAfterUpdate);
+    }
+
+    @Test
+    public void testPutClient() {
+        Actor actor = createActor();
+
+        ActorPutDTO put = new ActorPutDTO();
+        put.setName("Actor_test2_put");
+        put.setPatronymic("Actor_Patronymic");
+        put.setSurname("Actor_Surname");
+        put.setInfo("This information is only for test2");
+        put.setRatingFull(2.0);
+        ActorReadDTO read = actorService.putActor(actor.getId(), put);
+
+        Assertions.assertThat(put).isEqualToComparingFieldByField(read);
+
+        actor = actorRepository.findById(read.getId()).get();
+        Assertions.assertThat(actor).isEqualToComparingFieldByField(read);
     }
 
     @Test
@@ -122,5 +131,16 @@ public class ActorServiceTest {
     @Test(expected = EntityNotFoundException.class)
     public void testDeleteActorNotFound() {
         actorService.deleteActor(UUID.randomUUID());
+    }
+
+    private Actor createActor() {
+        Actor actor = new Actor();
+        actor.setName("Actor_test1");
+        actor.setPatronymic("Actor_Patronymic");
+        actor.setSurname("Actor_Surname");
+        actor.setInfo("This information is only for test");
+        actor.setRatingFull(2);
+        actor = actorRepository.save(actor);
+        return actor;
     }
 }

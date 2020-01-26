@@ -1,4 +1,4 @@
-package com.coursesolvve.webproject.dto;
+package com.coursesolvve.webproject.dto.film;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

@@ -1,8 +1,9 @@
 package com.coursesolvve.webproject.controller;
 
-import com.coursesolvve.webproject.dto.ClientCreateDTO;
-import com.coursesolvve.webproject.dto.ClientPatchDTO;
-import com.coursesolvve.webproject.dto.ClientReadDTO;
+import com.coursesolvve.webproject.dto.client.ClientCreateDTO;
+import com.coursesolvve.webproject.dto.client.ClientPatchDTO;
+import com.coursesolvve.webproject.dto.client.ClientPutDTO;
+import com.coursesolvve.webproject.dto.client.ClientReadDTO;
 import com.coursesolvve.webproject.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +30,11 @@ public class ClientController {
     @PatchMapping("/{id}")
     public ClientReadDTO patchClient(@PathVariable UUID id, @RequestBody ClientPatchDTO patch) {
         return clientService.patchClient(id, patch);
+    }
+
+    @PutMapping("/{id}")
+    public ClientReadDTO putClient(@PathVariable UUID id, @RequestBody ClientPutDTO put) {
+        return clientService.putClient(id, put);
     }
 
     @DeleteMapping("/{id}")

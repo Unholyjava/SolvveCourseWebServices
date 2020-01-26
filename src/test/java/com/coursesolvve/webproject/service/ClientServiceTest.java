@@ -1,9 +1,10 @@
 package com.coursesolvve.webproject.service;
 
 import com.coursesolvve.webproject.domain.Client;
-import com.coursesolvve.webproject.dto.ClientCreateDTO;
-import com.coursesolvve.webproject.dto.ClientPatchDTO;
-import com.coursesolvve.webproject.dto.ClientReadDTO;
+import com.coursesolvve.webproject.dto.client.ClientCreateDTO;
+import com.coursesolvve.webproject.dto.client.ClientPatchDTO;
+import com.coursesolvve.webproject.dto.client.ClientPutDTO;
+import com.coursesolvve.webproject.dto.client.ClientReadDTO;
 import com.coursesolvve.webproject.exception.EntityNotFoundException;
 import com.coursesolvve.webproject.repository.ClientRepository;
 import org.assertj.core.api.Assertions;
@@ -79,7 +80,7 @@ public class ClientServiceTest {
         patch.setTrust(false);
         patch.setReviewRating(1);
         patch.setActiveRating(7);
-        patch.setBlock(false);
+        patch.setIsBlock(false);
         ClientReadDTO read = clientService.patchClient(client.getId(), patch);
 
         Assertions.assertThat(patch).isEqualToComparingFieldByField(read);
@@ -101,6 +102,10 @@ public class ClientServiceTest {
         Assert.assertNotNull(read.getName());
         Assert.assertNotNull(read.getPatronymic());
         Assert.assertNotNull(read.getSurname());
+        Assert.assertNotNull(read.isTrust());
+        Assert.assertNotNull(read.getReviewRating());
+        Assert.assertNotNull(read.getActiveRating());
+        Assert.assertNotNull(read.isBlock());
 
         Client clientAfterUpdate = clientRepository.findById(read.getId()).get();
 
@@ -110,9 +115,48 @@ public class ClientServiceTest {
         Assert.assertNotNull(clientAfterUpdate.getName());
         Assert.assertNotNull(clientAfterUpdate.getPatronymic());
         Assert.assertNotNull(clientAfterUpdate.getSurname());
+        Assert.assertNotNull(clientAfterUpdate.isTrust());
+        Assert.assertNotNull(clientAfterUpdate.getReviewRating());
+        Assert.assertNotNull(clientAfterUpdate.getActiveRating());
+        Assert.assertNotNull(clientAfterUpdate.isBlock());
 
-        Assertions.assertThat(client).isEqualToIgnoringGivenFields(clientAfterUpdate,
-                "trust", "reviewRating", "activeRating", "isBlock");
+        Assertions.assertThat(client).isEqualToComparingFieldByField(clientAfterUpdate);
+    }
+
+    @Test
+    public void testPutClient() {
+        Client client = createClient();
+
+        ClientPutDTO put = new ClientPutDTO();
+        put.setNickName("Client_test1");
+        put.setLogin("ClientLogin_test2");
+        put.setMail("test_mail2");
+        put.setName("test_Name2");
+        put.setPatronymic("test_Patronymic2");
+        put.setSurname("test_Surname2");
+        put.setTrust(false);
+        put.setReviewRating(1);
+        put.setActiveRating(7);
+        put.setIsBlock(false);
+        ClientReadDTO read = clientService.putClient(client.getId(), put);
+
+        Assertions.assertThat(put).isEqualToComparingFieldByField(read);
+
+        client = clientRepository.findById(read.getId()).get();
+        Assertions.assertThat(client).isEqualToComparingFieldByField(read);
+    }
+
+    @Test
+    public void testDeleteClient() {
+        Client client = createClient();
+
+        clientService.deleteClient(client.getId());
+        Assert.assertFalse(clientRepository.existsById(client.getId()));
+    }
+
+    @Test(expected = EntityNotFoundException.class)
+    public void testDeleteClientNotFound() {
+        clientService.deleteClient(UUID.randomUUID());
     }
 
     private Client createClient() {
@@ -129,18 +173,5 @@ public class ClientServiceTest {
         client.setBlock(false);
         client = clientRepository.save(client);
         return client;
-    }
-
-    @Test
-    public void testDeleteClient() {
-        Client client = createClient();
-
-        clientService.deleteClient(client.getId());
-        Assert.assertFalse(clientRepository.existsById(client.getId()));
-    }
-
-    @Test(expected = EntityNotFoundException.class)
-    public void testDeleteClientNotFound() {
-        clientService.deleteClient(UUID.randomUUID());
     }
 }

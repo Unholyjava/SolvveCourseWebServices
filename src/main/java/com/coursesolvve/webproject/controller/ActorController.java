@@ -1,8 +1,9 @@
 package com.coursesolvve.webproject.controller;
 
-import com.coursesolvve.webproject.dto.ActorCreateDTO;
-import com.coursesolvve.webproject.dto.ActorPatchDTO;
-import com.coursesolvve.webproject.dto.ActorReadDTO;
+import com.coursesolvve.webproject.dto.actor.ActorCreateDTO;
+import com.coursesolvve.webproject.dto.actor.ActorPatchDTO;
+import com.coursesolvve.webproject.dto.actor.ActorPutDTO;
+import com.coursesolvve.webproject.dto.actor.ActorReadDTO;
 import com.coursesolvve.webproject.service.ActorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,11 @@ public class ActorController {
     @PostMapping
     public ActorReadDTO createActor(@RequestBody ActorCreateDTO createDTO) {
         return actorService.createActor(createDTO);
+    }
+
+    @PutMapping("/{id}")
+    public ActorReadDTO putActor(@PathVariable UUID id, @RequestBody ActorPutDTO put) {
+        return actorService.putActor(id, put);
     }
 
     @PatchMapping("/{id}")

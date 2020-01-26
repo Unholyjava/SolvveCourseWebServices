@@ -72,6 +72,49 @@
             OR creator_type = 'PRODUCER')
         </sql>
 
+        <createTable tableName="role">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="actor_id" type="uuid">
+                <constraints foreignKeyName="fk_act_id"
+                             referencedTableName="actor"
+                             referencedColumnNames="id"
+                             nullable="false"/>
+            </column>
+            <column name="name" type="varchar(40)"/>
+            <column name="info" type="varchar(1000)"/>
+            <column name="rating_full" type="double"/>
+        </createTable>
+
+        <createTable tableName="content_manager">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="nick_name" type="varchar(40)"/>
+            <column name="login" type="varchar(20)"/>
+            <column name="mail" type="varchar(20)"/>
+            <column name="name" type="varchar(20)"/>
+            <column name="patronymic" type="varchar(20)"/>
+            <column name="surname" type="varchar(20)"/>
+        </createTable>
+
+        <createTable tableName="news">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="content_manager_id" type="uuid">
+                <constraints foreignKeyName="fk_cm_id"
+                             referencedTableName="content_manager"
+                             referencedColumnNames="id"
+                             nullable="false"
+                             deleteCascade="true"/>
+            </column>
+            <column name="info" type="varchar(1000)"/>
+            <column name="news_mistake" type="boolean"/>
+            <column name="like_rating" type="int"/>
+        </createTable>
+
     </changeSet>
 
 </databaseChangeLog>

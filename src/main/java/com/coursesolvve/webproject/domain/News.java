@@ -3,11 +3,10 @@ package com.coursesolvve.webproject.domain;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.UUID;
 
-//@Entity
+@Entity
 @Getter
 @Setter
 public class News {
@@ -16,8 +15,11 @@ public class News {
     @GeneratedValue
     private UUID id;
 
+    @ManyToOne
+    @JoinColumn(nullable = false, updatable = false)
+    private ContentManager contentManager;
+
     private String info;
     private boolean newsMistake;
     private int likeRating;
-    private Client client;
 }

@@ -1,9 +1,10 @@
 package com.coursesolvve.webproject.controller;
 
 import com.coursesolvve.webproject.domain.Client;
-import com.coursesolvve.webproject.dto.ClientCreateDTO;
-import com.coursesolvve.webproject.dto.ClientPatchDTO;
-import com.coursesolvve.webproject.dto.ClientReadDTO;
+import com.coursesolvve.webproject.dto.client.ClientCreateDTO;
+import com.coursesolvve.webproject.dto.client.ClientPatchDTO;
+import com.coursesolvve.webproject.dto.client.ClientPutDTO;
+import com.coursesolvve.webproject.dto.client.ClientReadDTO;
 import com.coursesolvve.webproject.exception.EntityNotFoundException;
 import com.coursesolvve.webproject.service.ClientService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -52,22 +53,6 @@ public class ClientControllerTest {
         Assertions.assertThat(actualUser).isEqualToComparingFieldByField(read);
 
         Mockito.verify(clientService).getClient(read.getId());
-    }
-
-    private ClientReadDTO createClientRead() {
-        ClientReadDTO read = new ClientReadDTO();
-        read.setId(UUID.randomUUID());
-        read.setNickName("Client_test1");
-        read.setLogin("ClientLogin_test1");
-        read.setMail("test_mail");
-        read.setName("test_Name");
-        read.setPatronymic("test_Patronymic");
-        read.setSurname("test_Surname");
-        read.setTrust(true);
-        read.setReviewRating(4);
-        read.setActiveRating(5);
-        read.setBlock(false);
-        return read;
     }
 
     @Test
@@ -130,7 +115,7 @@ public class ClientControllerTest {
         patchDTO.setTrust(false);
         patchDTO.setReviewRating(2);
         patchDTO.setActiveRating(5);
-        patchDTO.setBlock(false);
+        patchDTO.setIsBlock(false);
 
         ClientReadDTO read = createClientRead();
 
@@ -147,11 +132,55 @@ public class ClientControllerTest {
     }
 
     @Test
+    public void testPutClient() throws Exception {
+        ClientPutDTO putDTO = new ClientPutDTO();
+        putDTO.setNickName("Client_test2");
+        putDTO.setLogin("ClientLogin_test2");
+        putDTO.setMail("test_mail");
+        putDTO.setName("test_Name");
+        putDTO.setPatronymic("test_Patronymic");
+        putDTO.setSurname("test_Surname");
+        putDTO.setTrust(false);
+        putDTO.setReviewRating(2);
+        putDTO.setActiveRating(5);
+        putDTO.setIsBlock(false);
+
+        ClientReadDTO read = createClientRead();
+
+        Mockito.when(clientService.putClient(read.getId(), putDTO)).thenReturn(read);
+
+        String resultJson = mvc.perform(put("/api/v1/clients/{id}", read.getId().toString())
+                .content(objectMapper.writeValueAsString(putDTO))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        ClientReadDTO actualClient = objectMapper.readValue(resultJson, ClientReadDTO.class);
+        Assert.assertEquals(read, actualClient);
+    }
+
+    @Test
     public void testDeleteClient() throws Exception {
         UUID id = UUID.randomUUID();
 
         mvc.perform(delete("/api/v1/clients/{id}", id.toString())).andExpect(status().isOk());
 
         Mockito.verify(clientService).deleteClient(id);
+    }
+
+    private ClientReadDTO createClientRead() {
+        ClientReadDTO read = new ClientReadDTO();
+        read.setId(UUID.randomUUID());
+        read.setNickName("Client_test1");
+        read.setLogin("ClientLogin_test1");
+        read.setMail("test_mail");
+        read.setName("test_Name");
+        read.setPatronymic("test_Patronymic");
+        read.setSurname("test_Surname");
+        read.setTrust(true);
+        read.setReviewRating(4);
+        read.setActiveRating(5);
+        read.setBlock(false);
+        return read;
     }
 }

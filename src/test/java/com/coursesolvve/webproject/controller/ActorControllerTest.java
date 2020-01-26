@@ -1,9 +1,10 @@
 package com.coursesolvve.webproject.controller;
 
 import com.coursesolvve.webproject.domain.Actor;
-import com.coursesolvve.webproject.dto.ActorCreateDTO;
-import com.coursesolvve.webproject.dto.ActorPatchDTO;
-import com.coursesolvve.webproject.dto.ActorReadDTO;
+import com.coursesolvve.webproject.dto.actor.ActorCreateDTO;
+import com.coursesolvve.webproject.dto.actor.ActorPatchDTO;
+import com.coursesolvve.webproject.dto.actor.ActorPutDTO;
+import com.coursesolvve.webproject.dto.actor.ActorReadDTO;
 import com.coursesolvve.webproject.exception.EntityNotFoundException;
 import com.coursesolvve.webproject.service.ActorService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -54,17 +55,6 @@ public class ActorControllerTest {
         Mockito.verify(actorService).getActor(read.getId());
     }
 
-    private ActorReadDTO createActorRead() {
-        ActorReadDTO read = new ActorReadDTO();
-        read.setId(UUID.randomUUID());
-        read.setName("Actor_test1");
-        read.setPatronymic("Actor_Patronymic");
-        read.setSurname("Actor_Surname");
-        read.setInfo("This information is only for test");
-        read.setRatingFull(3);
-        return read;
-    }
-
     @Test
     public void testGetActorWrongId() throws Exception {
         UUID wrongId = UUID.randomUUID();
@@ -78,7 +68,7 @@ public class ActorControllerTest {
     }
 
     @Test
-    public void testGetActorWrongUuidId() throws Exception {
+    public void testGetActorWrongUuidFormat() throws Exception {
         UUID id = UUID.randomUUID();
         String wrongUuidId = id.toString() + id.toString();
         String resultJson = mvc.perform(get("/api/v1/actors/{id}", wrongUuidId))
@@ -115,7 +105,7 @@ public class ActorControllerTest {
         patchDTO.setPatronymic("Actor_Patronymic");
         patchDTO.setSurname("Actor_Surname");
         patchDTO.setInfo("This information is only for test2_create");
-        patchDTO.setRatingFull(3);
+        patchDTO.setRatingFull(3.0);
 
         ActorReadDTO read = createActorRead();
 
@@ -132,11 +122,45 @@ public class ActorControllerTest {
     }
 
     @Test
+    public void testPutActor() throws Exception {
+        ActorPutDTO putDTO = new ActorPutDTO();
+        putDTO.setName("Actor_test2_create");
+        putDTO.setPatronymic("Actor_Patronymic");
+        putDTO.setSurname("Actor_Surname");
+        putDTO.setInfo("This information is only for test2_create");
+        putDTO.setRatingFull(3.0);
+
+        ActorReadDTO read = createActorRead();
+
+        Mockito.when(actorService.putActor(read.getId(), putDTO)).thenReturn(read);
+
+        String resultJson = mvc.perform(put("/api/v1/actors/{id}", read.getId().toString())
+                .content(objectMapper.writeValueAsString(putDTO))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn().getResponse().getContentAsString();
+
+        ActorReadDTO actualActor = objectMapper.readValue(resultJson, ActorReadDTO.class);
+        Assert.assertEquals(read, actualActor);
+    }
+
+    @Test
     public void testDeleteActor() throws Exception {
         UUID id = UUID.randomUUID();
 
         mvc.perform(delete("/api/v1/actors/{id}", id.toString())).andExpect(status().isOk());
 
         Mockito.verify(actorService).deleteActor(id);
+    }
+
+    private ActorReadDTO createActorRead() {
+        ActorReadDTO read = new ActorReadDTO();
+        read.setId(UUID.randomUUID());
+        read.setName("Actor_test1");
+        read.setPatronymic("Actor_Patronymic");
+        read.setSurname("Actor_Surname");
+        read.setInfo("This information is only for test");
+        read.setRatingFull(3);
+        return read;
     }
 }

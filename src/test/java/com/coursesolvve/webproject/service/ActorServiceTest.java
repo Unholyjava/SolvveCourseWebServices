@@ -61,7 +61,7 @@ public class ActorServiceTest {
     }
 
     @Test
-    public void testPatchClient() {
+    public void testPatchActor() {
         Actor actor = createActor();
 
         ActorPatchDTO patch = new ActorPatchDTO();
@@ -81,29 +81,18 @@ public class ActorServiceTest {
     @Test
     public void testPatchActorEmptyPatch() {
         Actor actor = createActor();
-
         ActorPatchDTO patch = new ActorPatchDTO();
         ActorReadDTO read = actorService.patchActor(actor.getId(), patch);
-
-        Assert.assertNotNull(read.getName());
-        Assert.assertNotNull(read.getPatronymic());
-        Assert.assertNotNull(read.getSurname());
-        Assert.assertNotNull(read.getInfo());
-        Assert.assertNotNull(read.getRatingFull());
+        Assertions.assertThat(read).hasNoNullFieldsOrProperties();
 
         Actor actorAfterUpdate = actorRepository.findById(read.getId()).get();
-
-        Assert.assertNotNull(actorAfterUpdate.getName());
-        Assert.assertNotNull(actorAfterUpdate.getPatronymic());
-        Assert.assertNotNull(actorAfterUpdate.getSurname());
-        Assert.assertNotNull(actorAfterUpdate.getInfo());
-        Assert.assertNotNull(actorAfterUpdate.getRatingFull());
+        Assertions.assertThat(actorAfterUpdate).hasNoNullFieldsOrProperties();
 
         Assertions.assertThat(actor).isEqualToComparingFieldByField(actorAfterUpdate);
     }
 
     @Test
-    public void testPutClient() {
+    public void testPutActor() {
         Actor actor = createActor();
 
         ActorPutDTO put = new ActorPutDTO();

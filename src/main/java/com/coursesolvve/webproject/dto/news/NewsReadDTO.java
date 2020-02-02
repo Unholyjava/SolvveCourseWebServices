@@ -1,4 +1,4 @@
-package com.coursesolvve.webproject.dto;
+package com.coursesolvve.webproject.dto.news;
 
 import lombok.Data;
 

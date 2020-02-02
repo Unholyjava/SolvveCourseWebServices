@@ -1,11 +1,19 @@
 package com.coursesolvve.webproject.service;
 
 import com.coursesolvve.webproject.domain.Actor;
+import com.coursesolvve.webproject.domain.ContentManager;
+import com.coursesolvve.webproject.domain.News;
 import com.coursesolvve.webproject.domain.Role;
 import com.coursesolvve.webproject.dto.actor.ActorCreateDTO;
 import com.coursesolvve.webproject.dto.actor.ActorPatchDTO;
 import com.coursesolvve.webproject.dto.actor.ActorPutDTO;
 import com.coursesolvve.webproject.dto.actor.ActorReadDTO;
+import com.coursesolvve.webproject.dto.contentmanager.ContentManagerCreateDTO;
+import com.coursesolvve.webproject.dto.contentmanager.ContentManagerPatchDTO;
+import com.coursesolvve.webproject.dto.contentmanager.ContentManagerPutDTO;
+import com.coursesolvve.webproject.dto.contentmanager.ContentManagerReadDTO;
+import com.coursesolvve.webproject.dto.news.NewsReadDTO;
+import com.coursesolvve.webproject.dto.news.NewsReadExtendedDTO;
 import com.coursesolvve.webproject.dto.role.RoleReadExtendedDTO;
 import org.springframework.stereotype.Service;
 
@@ -67,5 +75,77 @@ public class TranslationService {
         actor.setSurname(put.getSurname());
         actor.setInfo(put.getInfo());
         actor.setRatingFull(put.getRatingFull());
+    }
+
+    public NewsReadExtendedDTO toReadExtended(News news) {
+        NewsReadExtendedDTO newsReadDTO = new NewsReadExtendedDTO();
+        newsReadDTO.setId(news.getId());
+        newsReadDTO.setInfo(news.getInfo());
+        newsReadDTO.setNewsMistake(news.isNewsMistake());
+        newsReadDTO.setLikeRating(news.getLikeRating());
+        newsReadDTO.setContentManager(toRead(news.getContentManager()));
+        return newsReadDTO;
+    }
+
+    public NewsReadDTO toRead(News news) {
+        NewsReadDTO newsReadDTO = new NewsReadDTO();
+        newsReadDTO.setId(news.getId());
+        newsReadDTO.setInfo(news.getInfo());
+        newsReadDTO.setNewsMistake(news.isNewsMistake());
+        newsReadDTO.setLikeRating(news.getLikeRating());
+        return newsReadDTO;
+    }
+
+    public ContentManagerReadDTO toRead(ContentManager contentManager) {
+        ContentManagerReadDTO contentManagerReadDTO = new ContentManagerReadDTO();
+        contentManagerReadDTO.setId(contentManager.getId());
+        contentManagerReadDTO.setNickName(contentManager.getNickName());
+        contentManagerReadDTO.setLogin(contentManager.getLogin());
+        contentManagerReadDTO.setMail(contentManager.getMail());
+        contentManagerReadDTO.setName(contentManager.getName());
+        contentManagerReadDTO.setPatronymic(contentManager.getPatronymic());
+        contentManagerReadDTO.setSurname(contentManager.getSurname());
+        return contentManagerReadDTO;
+    }
+
+    public ContentManager toEntity(ContentManagerCreateDTO create) {
+        ContentManager contentManager = new ContentManager();
+        contentManager.setNickName(create.getNickName());
+        contentManager.setLogin(create.getLogin());
+        contentManager.setMail(create.getMail());
+        contentManager.setName(create.getName());
+        contentManager.setPatronymic(create.getPatronymic());
+        contentManager.setSurname(create.getSurname());
+        return contentManager;
+    }
+
+    public void patchEntity(ContentManagerPatchDTO patch, ContentManager contentManager) {
+        if (patch.getNickName() != null) {
+            contentManager.setNickName(patch.getNickName());
+        }
+        if (patch.getLogin() != null) {
+            contentManager.setLogin(patch.getLogin());
+        }
+        if (patch.getMail() != null) {
+            contentManager.setMail(patch.getMail());
+        }
+        if (patch.getName() != null) {
+            contentManager.setName(patch.getName());
+        }
+        if (patch.getPatronymic() != null) {
+            contentManager.setPatronymic(patch.getPatronymic());
+        }
+        if (patch.getSurname() != null) {
+            contentManager.setSurname(patch.getSurname());
+        }
+    }
+
+    public void putEntity(ContentManagerPutDTO put, ContentManager contentManager) {
+        contentManager.setNickName(put.getNickName());
+        contentManager.setLogin(put.getLogin());
+        contentManager.setMail(put.getMail());
+        contentManager.setName(put.getName());
+        contentManager.setPatronymic(put.getPatronymic());
+        contentManager.setSurname(put.getSurname());
     }
 }

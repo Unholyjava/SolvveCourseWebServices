@@ -92,33 +92,12 @@ public class ClientServiceTest {
     @Test
     public void testPatchClientEmptyPatch() {
         Client client = createClient();
-
         ClientPatchDTO patch = new ClientPatchDTO();
         ClientReadDTO read = clientService.patchClient(client.getId(), patch);
-
-        Assert.assertNotNull(read.getNickName());
-        Assert.assertNotNull(read.getLogin());
-        Assert.assertNotNull(read.getMail());
-        Assert.assertNotNull(read.getName());
-        Assert.assertNotNull(read.getPatronymic());
-        Assert.assertNotNull(read.getSurname());
-        Assert.assertNotNull(read.isTrust());
-        Assert.assertNotNull(read.getReviewRating());
-        Assert.assertNotNull(read.getActiveRating());
-        Assert.assertNotNull(read.isBlock());
+        Assertions.assertThat(read).hasNoNullFieldsOrProperties();
 
         Client clientAfterUpdate = clientRepository.findById(read.getId()).get();
-
-        Assert.assertNotNull(clientAfterUpdate.getNickName());
-        Assert.assertNotNull(clientAfterUpdate.getLogin());
-        Assert.assertNotNull(clientAfterUpdate.getMail());
-        Assert.assertNotNull(clientAfterUpdate.getName());
-        Assert.assertNotNull(clientAfterUpdate.getPatronymic());
-        Assert.assertNotNull(clientAfterUpdate.getSurname());
-        Assert.assertNotNull(clientAfterUpdate.isTrust());
-        Assert.assertNotNull(clientAfterUpdate.getReviewRating());
-        Assert.assertNotNull(clientAfterUpdate.getActiveRating());
-        Assert.assertNotNull(clientAfterUpdate.isBlock());
+        Assertions.assertThat(clientAfterUpdate).hasNoNullFieldsOrProperties();
 
         Assertions.assertThat(client).isEqualToComparingFieldByField(clientAfterUpdate);
     }

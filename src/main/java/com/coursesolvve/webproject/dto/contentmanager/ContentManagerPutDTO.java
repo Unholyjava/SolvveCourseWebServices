@@ -1,9 +1,9 @@
-package com.coursesolvve.webproject.dto;
+package com.coursesolvve.webproject.dto.contentmanager;
 
 import lombok.Data;
 
 @Data
-public class ContentManagerPatchDTO {
+public class ContentManagerPutDTO {
     private String nickName;
     private String login;
     private String mail;

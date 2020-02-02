@@ -8,10 +8,11 @@ import java.util.UUID;
 @Data
 public class RoleReadExtendedDTO {
     private UUID id;
+
+    private ActorReadDTO actor;
+
     private String name;
     private String info;
     private double ratingFull;
-
-    private ActorReadDTO actor;
 }
 

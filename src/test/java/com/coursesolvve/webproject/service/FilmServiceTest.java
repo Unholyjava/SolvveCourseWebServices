@@ -85,20 +85,10 @@ public class FilmServiceTest {
 
         FilmPatchDTO patch = new FilmPatchDTO();
         FilmReadDTO read = filmService.patchFilm(film.getId(), patch);
-
-        Assert.assertNotNull(read.getName());
-        Assert.assertNotNull(read.getInfo());
-        Assert.assertNotNull(read.getRatingFull());
-        Assert.assertNotNull(read.isTextMistake());
-        Assert.assertNotNull(read.isRelease());
+        Assertions.assertThat(read).hasNoNullFieldsOrProperties();
 
         Film filmAfterUpdate = filmRepository.findById(read.getId()).get();
-
-        Assert.assertNotNull(filmAfterUpdate.getName());
-        Assert.assertNotNull(filmAfterUpdate.getInfo());
-        Assert.assertNotNull(filmAfterUpdate.getRatingFull());
-        Assert.assertNotNull(filmAfterUpdate.isTextMistake());
-        Assert.assertNotNull(filmAfterUpdate.isRelease());
+        Assertions.assertThat(filmAfterUpdate).hasNoNullFieldsOrProperties();
 
         Assertions.assertThat(film).isEqualToComparingFieldByField(filmAfterUpdate);
     }

@@ -90,16 +90,10 @@ public class RoleServiceTest {
 
         RolePatchDTO patch = new RolePatchDTO();
         RoleReadDTO read = roleService.patchRole(role.getId(), patch);
-
-        Assert.assertNotNull(read.getName());
-        Assert.assertNotNull(read.getInfo());
-        Assert.assertNotNull(read.getRatingFull());
+        Assertions.assertThat(read).hasNoNullFieldsOrPropertiesExcept("actorId");
 
         Role roleAfterUpdate = roleRepository.findById(read.getId()).get();
-
-        Assert.assertNotNull(roleAfterUpdate.getName());
-        Assert.assertNotNull(roleAfterUpdate.getInfo());
-        Assert.assertNotNull(roleAfterUpdate.getRatingFull());
+        Assertions.assertThat(roleAfterUpdate).hasNoNullFieldsOrPropertiesExcept("actor");
 
         Assertions.assertThat(role).isEqualToIgnoringGivenFields(roleAfterUpdate, "actor");
     }

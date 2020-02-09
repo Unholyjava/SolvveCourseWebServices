@@ -28,8 +28,8 @@ public class ContentManagerController {
     }
 
     @PutMapping("/{id}")
-    public ContentManagerReadDTO putContentManager(@PathVariable UUID id, @RequestBody ContentManagerPutDTO put) {
-        return contentManagerService.putContentManager(id, put);
+    public ContentManagerReadDTO updateContentManager(@PathVariable UUID id, @RequestBody ContentManagerPutDTO put) {
+        return contentManagerService.updateContentManager(id, put);
     }
 
     @PatchMapping("/{id}")

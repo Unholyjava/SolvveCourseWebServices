@@ -100,14 +100,14 @@ public class RoleServiceTest {
 
     @Test
     @Transactional
-    public void testPutRole() {
+    public void testUpdateRole() {
         Role role = createRole();
 
         RolePutDTO put = new RolePutDTO();
         put.setName("Role_test2_put");
         put.setInfo("This information is only for test2");
         put.setRatingFull(2.0);
-        RoleReadDTO read = roleService.putRole(role.getId(), put);
+        RoleReadDTO read = roleService.updateRole(role.getId(), put);
 
         Assertions.assertThat(put).isEqualToComparingFieldByField(read);
 
@@ -132,7 +132,7 @@ public class RoleServiceTest {
         Role role = new Role();
         role.setName("Role_test1");
         role.setInfo("This information is only for test");
-        role.setRatingFull(2);
+        role.setRatingFull(2.0);
         role.setActor(actor);
         role = roleRepository.save(role);
         return role;
@@ -142,7 +142,7 @@ public class RoleServiceTest {
         Role role = new Role();
         role.setName("Role_test1");
         role.setInfo("This information is only for test");
-        role.setRatingFull(2);
+        role.setRatingFull(2.0);
         role = roleRepository.save(role);
         return role;
     }
@@ -153,7 +153,7 @@ public class RoleServiceTest {
         actor.setPatronymic("Actor_Patronymic");
         actor.setSurname("Actor_Surname");
         actor.setInfo("This information is only for test");
-        actor.setRatingFull(2);
+        actor.setRatingFull(2.0);
         actor = actorRepository.save(actor);
         return actor;
     }

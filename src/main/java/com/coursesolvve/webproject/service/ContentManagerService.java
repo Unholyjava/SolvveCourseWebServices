@@ -42,10 +42,10 @@ public class ContentManagerService {
         return translationService.toRead(contentManager);
     }
 
-    public ContentManagerReadDTO putContentManager(UUID id, ContentManagerPutDTO put) {
+    public ContentManagerReadDTO updateContentManager(UUID id, ContentManagerPutDTO put) {
         ContentManager contentManager = getContentManagerRequired(id);
 
-        translationService.putEntity(put, contentManager);
+        translationService.updateEntity(put, contentManager);
 
         contentManager = contentManagerRepository.save(contentManager);
         return translationService.toRead(contentManager);

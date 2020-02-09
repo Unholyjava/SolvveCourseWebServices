@@ -94,7 +94,7 @@ public class ContentManagerServiceTest {
     }
 
     @Test
-    public void testPutContentManager() {
+    public void testUpdateContentManager() {
         ContentManager contentManager = createContentManager();
 
         ContentManagerPutDTO put = new ContentManagerPutDTO();
@@ -105,7 +105,7 @@ public class ContentManagerServiceTest {
         put.setPatronymic("contManager_Patron");
         put.setSurname("contManager_Surname");
 
-        ContentManagerReadDTO read = contentManagerService.putContentManager(contentManager.getId(), put);
+        ContentManagerReadDTO read = contentManagerService.updateContentManager(contentManager.getId(), put);
 
         Assertions.assertThat(put).isEqualToComparingFieldByField(read);
 

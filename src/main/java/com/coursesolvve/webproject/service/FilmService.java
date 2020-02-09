@@ -28,8 +28,8 @@ public class FilmService {
         film.setName(create.getName());
         film.setInfo(create.getInfo());
         film.setRatingFull(create.getRatingFull());
-        film.setTextMistake(create.isTextMistake());
-        film.setRelease(create.isRelease());
+        film.setTextMistake(create.getTextMistake());
+        film.setRelease(create.getRelease());
         film = filmRepository.save(film);
         return toRead(film);
     }
@@ -57,7 +57,7 @@ public class FilmService {
         return toRead(film);
     }
 
-    public FilmReadDTO putFilm(UUID id, FilmPutDTO put) {
+    public FilmReadDTO updateFilm(UUID id, FilmPutDTO put) {
         Film film = getFilmRequired(id);
 
         film.setName(put.getName());
@@ -86,8 +86,8 @@ public class FilmService {
         filmReadDTO.setName(film.getName());
         filmReadDTO.setInfo(film.getInfo());
         filmReadDTO.setRatingFull(film.getRatingFull());
-        filmReadDTO.setTextMistake(film.isTextMistake());
-        filmReadDTO.setRelease(film.isRelease());
+        filmReadDTO.setTextMistake(film.getTextMistake());
+        filmReadDTO.setRelease(film.getRelease());
         return filmReadDTO;
     }
 }

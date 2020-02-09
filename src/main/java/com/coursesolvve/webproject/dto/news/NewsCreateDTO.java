@@ -6,6 +6,6 @@ import lombok.Data;
 public class NewsCreateDTO {
 
     private String info;
-    private boolean newsMistake;
-    private int likeRating;
+    private Boolean newsMistake;
+    private Integer likeRating;
 }

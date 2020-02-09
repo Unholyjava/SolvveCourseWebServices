@@ -124,7 +124,7 @@ public class ContentManagerControllerTest {
     }
 
     @Test
-    public void testPutContentManager() throws Exception {
+    public void testUpdateContentManager() throws Exception {
         ContentManagerPutDTO putDTO = new ContentManagerPutDTO();
         putDTO.setNickName("contManager_Nick");
         putDTO.setLogin("contManager_Login");
@@ -135,7 +135,7 @@ public class ContentManagerControllerTest {
 
         ContentManagerReadDTO read = createContentManagerRead();
 
-        Mockito.when(contentManagerService.putContentManager(read.getId(), putDTO)).thenReturn(read);
+        Mockito.when(contentManagerService.updateContentManager(read.getId(), putDTO)).thenReturn(read);
 
         String resultJson = mvc.perform(put("/api/v1/content-managers/{id}", read.getId().toString())
                 .content(objectMapper.writeValueAsString(putDTO))

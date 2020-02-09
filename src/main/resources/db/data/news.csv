@@ -1,0 +1,13 @@
+id;content_manager_id;info;news_mistake;like_rating
+2aed0cc1-ea02-4f06-ae4a-feb6d40506e9;5d41f6b8-ba6f-4f4f-a9c3-1caa1a61221d;info1_1;true;3
+fe109581-e20c-47c3-90db-e9c9958610a9;5d41f6b8-ba6f-4f4f-a9c3-1caa1a61221d;info1_2;true;2
+005e67f7-1958-4685-b43e-b285e9598610;5d41f6b8-ba6f-4f4f-a9c3-1caa1a61221d;info1_3;true;4
+d1f2e5f5-5445-487b-98a6-8c6ac0856ff3;77c3dcae-eb66-4dbe-ae1c-937b46c1867d;info2_1;false;1
+9a954fc7-f9ca-468e-b6bc-f6b8c937038e;77c3dcae-eb66-4dbe-ae1c-937b46c1867d;info2_2;false;5
+17bec4d2-2871-4e19-8d1a-10db2328d54f;77c3dcae-eb66-4dbe-ae1c-937b46c1867d;info2_3;false;9
+2797589f-9d62-4b9e-8795-16f476e999ca;77c3dcae-eb66-4dbe-ae1c-937b46c1867d;info2_4;true;6
+5e946126-ebd2-42c6-88f0-a39858d710f1;0c0fbd62-5631-49c7-8cb7-94d3a4ed38d6;info3_1;false;5
+d5db5cbc-1378-463e-b261-0f91267cc6bc;0c0fbd62-5631-49c7-8cb7-94d3a4ed38d6;info3_2;false;8
+f0372ddf-5486-4017-8c1a-9091c30362e9;0c0fbd62-5631-49c7-8cb7-94d3a4ed38d6;info3_3;false;9
+761e6dab-b7fc-425e-b7b0-d6df65e1702e;0c0fbd62-5631-49c7-8cb7-94d3a4ed38d6;info3_4;false;4
+761e6dab-b7fc-425e-b7b0-d6df65e1702e;0c0fbd62-5631-49c7-8cb7-94d3a4ed38d6;info3_5;false;5

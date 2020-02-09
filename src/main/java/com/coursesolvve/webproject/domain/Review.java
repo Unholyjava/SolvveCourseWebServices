@@ -19,10 +19,10 @@ public class Review {
 
     private ReviewStatus reviewStatus;
     private String filmReview;
-    private int filmRating;
+    private Integer filmRating;
     private String roleReview;
-    private boolean reviewMistake;
-    private int likeRating;
+    private Boolean reviewMistake;
+    private Integer likeRating;
     private Instant dataReview;
     private Film film;
     private Client client;

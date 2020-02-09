@@ -88,7 +88,7 @@ public class ClientControllerTest {
         create.setTrust(true);
         create.setReviewRating(4);
         create.setActiveRating(5);
-        create.setBlock(false);
+        create.setIsBlock(false);
 
         ClientReadDTO read = createClientRead();
 
@@ -132,7 +132,7 @@ public class ClientControllerTest {
     }
 
     @Test
-    public void testPutClient() throws Exception {
+    public void testUpdateClient() throws Exception {
         ClientPutDTO putDTO = new ClientPutDTO();
         putDTO.setNickName("Client_test2");
         putDTO.setLogin("ClientLogin_test2");
@@ -147,7 +147,7 @@ public class ClientControllerTest {
 
         ClientReadDTO read = createClientRead();
 
-        Mockito.when(clientService.putClient(read.getId(), putDTO)).thenReturn(read);
+        Mockito.when(clientService.updateClient(read.getId(), putDTO)).thenReturn(read);
 
         String resultJson = mvc.perform(put("/api/v1/clients/{id}", read.getId().toString())
                 .content(objectMapper.writeValueAsString(putDTO))
@@ -180,7 +180,7 @@ public class ClientControllerTest {
         read.setTrust(true);
         read.setReviewRating(4);
         read.setActiveRating(5);
-        read.setBlock(false);
+        read.setIsBlock(false);
         return read;
     }
 }

@@ -51,7 +51,7 @@ public class ActorServiceTest {
         create.setPatronymic("Actor_Patronymic");
         create.setSurname("Actor_Surname");
         create.setInfo("This information is only for test2_create");
-        create.setRatingFull(2);
+        create.setRatingFull(2.0);
         ActorReadDTO read = actorService.createActor(create);
         Assertions.assertThat(create).isEqualToComparingFieldByField(read);
         Assert.assertNotNull(read.getId());
@@ -92,7 +92,7 @@ public class ActorServiceTest {
     }
 
     @Test
-    public void testPutActor() {
+    public void testUpdateActor() {
         Actor actor = createActor();
 
         ActorPutDTO put = new ActorPutDTO();
@@ -101,7 +101,7 @@ public class ActorServiceTest {
         put.setSurname("Actor_Surname");
         put.setInfo("This information is only for test2");
         put.setRatingFull(2.0);
-        ActorReadDTO read = actorService.putActor(actor.getId(), put);
+        ActorReadDTO read = actorService.updateActor(actor.getId(), put);
 
         Assertions.assertThat(put).isEqualToComparingFieldByField(read);
 
@@ -128,7 +128,7 @@ public class ActorServiceTest {
         actor.setPatronymic("Actor_Patronymic");
         actor.setSurname("Actor_Surname");
         actor.setInfo("This information is only for test");
-        actor.setRatingFull(2);
+        actor.setRatingFull(2.0);
         actor = actorRepository.save(actor);
         return actor;
     }

@@ -49,7 +49,7 @@ public class FilmServiceTest {
         FilmCreateDTO create = new FilmCreateDTO();
         create.setName("Film_test2_create");
         create.setInfo("This information is only for test_create");
-        create.setRatingFull(10);
+        create.setRatingFull(10.0);
         create.setTextMistake(false);
         create.setRelease(true);
         FilmReadDTO read = filmService.createFilm(create);
@@ -94,7 +94,7 @@ public class FilmServiceTest {
     }
 
     @Test
-    public void testPutFilm() {
+    public void testUpdateFilm() {
         Film film = createFilm();
 
         FilmPutDTO put = new FilmPutDTO();
@@ -103,7 +103,7 @@ public class FilmServiceTest {
         put.setRatingFull(10.0);
         put.setTextMistake(false);
         put.setRelease(true);
-        FilmReadDTO read = filmService.putFilm(film.getId(), put);
+        FilmReadDTO read = filmService.updateFilm(film.getId(), put);
 
         Assertions.assertThat(put).isEqualToComparingFieldByField(read);
 
@@ -128,7 +128,7 @@ public class FilmServiceTest {
         Film film = new Film();
         film.setName("Film_test1");
         film.setInfo("This information is only for test");
-        film.setRatingFull(10);
+        film.setRatingFull(10.0);
         film.setTextMistake(false);
         film.setRelease(true);
         film = filmRepository.save(film);

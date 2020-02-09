@@ -23,11 +23,6 @@ public class RoleService {
         return translationService.toReadExtended(role);
     }
 
-    /*public RoleReadDTO getRole(UUID id) {
-        Role role = getRoleRequired(id);
-        return toRead(role);
-    }*/
-
     public RoleReadDTO createRole(RoleCreateDTO create) {
         Role role = new Role();
         role.setName(create.getName());
@@ -54,7 +49,7 @@ public class RoleService {
         return toRead(role);
     }
 
-    public RoleReadDTO putRole(UUID id, RolePutDTO put) {
+    public RoleReadDTO updateRole(UUID id, RolePutDTO put) {
         Role role = getRoleRequired(id);
 
         role.setName(put.getName());
@@ -82,15 +77,4 @@ public class RoleService {
         roleReadDTO.setRatingFull(role.getRatingFull());
         return roleReadDTO;
     }
-
-    /*private ActorReadDTO toRead(Actor actor) {
-        ActorReadDTO actorReadDTO = new ActorReadDTO();
-        actorReadDTO.setId(actor.getId());
-        actorReadDTO.setName(actor.getName());
-        actorReadDTO.setPatronymic(actor.getPatronymic());
-        actorReadDTO.setSurname(actor.getSurname());
-        actorReadDTO.setInfo(actor.getInfo());
-        actorReadDTO.setRatingFull(actor.getRatingFull());
-        return actorReadDTO;
-    }*/
 }

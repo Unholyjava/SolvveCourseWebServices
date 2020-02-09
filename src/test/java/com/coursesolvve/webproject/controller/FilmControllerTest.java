@@ -88,7 +88,7 @@ public class FilmControllerTest {
         FilmCreateDTO create = new FilmCreateDTO();
         create.setName("Film_test2_create");
         create.setInfo("This information is only for test2_create");
-        create.setRatingFull(10);
+        create.setRatingFull(10.0);
         create.setTextMistake(false);
         create.setRelease(true);
 
@@ -129,7 +129,7 @@ public class FilmControllerTest {
     }
 
     @Test
-    public void testPutFilm() throws Exception {
+    public void testUpdateFilm() throws Exception {
         FilmPutDTO putDTO = new FilmPutDTO();
         putDTO.setName("Film_test2_create");
         putDTO.setInfo("This information is only for test2_create");
@@ -139,7 +139,7 @@ public class FilmControllerTest {
 
         FilmReadDTO read = createFilmRead();
 
-        Mockito.when(filmService.putFilm(read.getId(), putDTO)).thenReturn(read);
+        Mockito.when(filmService.updateFilm(read.getId(), putDTO)).thenReturn(read);
 
         String resultJson = mvc.perform(put("/api/v1/films/{id}", read.getId().toString())
                 .content(objectMapper.writeValueAsString(putDTO))

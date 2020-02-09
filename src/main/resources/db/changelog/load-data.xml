@@ -1,0 +1,31 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="create tables" author="dbadmin" runOnChange="true">
+
+        <loadUpdateData tableName="content_manager" file="db/data/contentManager.csv" separator=";" primaryKey="id">
+            <column name="id" type="uuid"/>
+            <column name="nick_name" type="string"/>
+            <column name="login" type="string"/>
+            <column name="mail" type="string"/>
+            <column name="name" type="string"/>
+            <column name="patronymic" type="string"/>
+            <column name="surname" type="string"/>
+        </loadUpdateData>
+
+        <loadUpdateData tableName="news" file="db/data/news.csv" separator=";" primaryKey="id">
+            <column name="id" type="uuid"/>
+            <column name="content_manager_id" type="uuid"/>
+            <column name="info" type="string"/>
+            <column name="news_mistake" type="boolean"/>
+            <column name="like_rating" type="numeric"/>
+        </loadUpdateData>
+    </changeSet>
+
+</databaseChangeLog>

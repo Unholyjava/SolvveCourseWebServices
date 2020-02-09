@@ -31,10 +31,10 @@ public class ClientService {
         client.setName(create.getName());
         client.setPatronymic(create.getPatronymic());
         client.setSurname(create.getSurname());
-        client.setTrust(create.isTrust());
+        client.setTrust(create.getTrust());
         client.setReviewRating(create.getReviewRating());
         client.setActiveRating(create.getActiveRating());
-        client.setBlock(create.isBlock());
+        client.setIsBlock(create.getIsBlock());
         client = clientRepository.save(client);
         return toRead(client);
     }
@@ -70,14 +70,14 @@ public class ClientService {
             client.setReviewRating(patch.getReviewRating());
         }
         if (patch.getIsBlock() != null) {
-            client.setBlock(patch.getIsBlock());
+            client.setIsBlock(patch.getIsBlock());
         }
 
         client = clientRepository.save(client);
         return toRead(client);
     }
 
-    public ClientReadDTO putClient(UUID id, ClientPutDTO put) {
+    public ClientReadDTO updateClient(UUID id, ClientPutDTO put) {
         Client client = getClientRequired(id);
 
         client.setNickName(put.getNickName());
@@ -89,7 +89,7 @@ public class ClientService {
         client.setTrust(put.getTrust());
         client.setActiveRating(put.getActiveRating());
         client.setReviewRating(put.getReviewRating());
-        client.setBlock(put.getIsBlock());
+        client.setIsBlock(put.getIsBlock());
 
         client = clientRepository.save(client);
         return toRead(client);
@@ -114,10 +114,10 @@ public class ClientService {
         clientReadDTO.setName(client.getName());
         clientReadDTO.setPatronymic(client.getPatronymic());
         clientReadDTO.setSurname(client.getSurname());
-        clientReadDTO.setTrust(client.isTrust());
+        clientReadDTO.setTrust(client.getTrust());
         clientReadDTO.setReviewRating(client.getReviewRating());
         clientReadDTO.setActiveRating(client.getActiveRating());
-        clientReadDTO.setBlock(client.isBlock());
+        clientReadDTO.setIsBlock(client.getIsBlock());
         return clientReadDTO;
     }
 }

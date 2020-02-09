@@ -30,10 +30,17 @@ public class NewsService {
         return newsList.stream().map(translationService::toRead).collect(Collectors.toList());
     }
 
+    public List<NewsReadDTO> getContentManagerNews (UUID contentManagerId) {
+        NewsFilter newsFilter = new NewsFilter();
+        newsFilter.setId(contentManagerId);
+        List<News> newsList = newsRepository.findByFilter(newsFilter);
+        return newsList.stream().map(translationService::toRead).collect(Collectors.toList());
+    }
+
     public NewsReadDTO createNews(NewsCreateDTO create) {
         News news = new News();
         news.setInfo(create.getInfo());
-        news.setNewsMistake(create.isNewsMistake());
+        news.setNewsMistake(create.getNewsMistake());
         news.setLikeRating(create.getLikeRating());
         news = newsRepository.save(news);
         return translationService.toRead(news);
@@ -56,7 +63,7 @@ public class NewsService {
         return translationService.toRead(news);
     }
 
-    public NewsReadDTO putNews(UUID id, NewsPutDTO put) {
+    public NewsReadDTO updateNews(UUID id, NewsPutDTO put) {
         News news = getNewsRequired(id);
 
         news.setInfo(put.getInfo());

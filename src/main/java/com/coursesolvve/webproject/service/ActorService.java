@@ -42,10 +42,10 @@ public class ActorService {
         return translationService.toRead(actor);
     }
 
-    public ActorReadDTO putActor(UUID id, ActorPutDTO put) {
+    public ActorReadDTO updateActor(UUID id, ActorPutDTO put) {
         Actor actor = getActorRequired(id);
 
-        translationService.putEntity(put, actor);
+        translationService.updateEntity(put, actor);
 
         actor = actorRepository.save(actor);
         return translationService.toRead(actor);

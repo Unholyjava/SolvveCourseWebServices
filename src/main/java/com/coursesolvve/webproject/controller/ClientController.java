@@ -33,8 +33,8 @@ public class ClientController {
     }
 
     @PutMapping("/{id}")
-    public ClientReadDTO putClient(@PathVariable UUID id, @RequestBody ClientPutDTO put) {
-        return clientService.putClient(id, put);
+    public ClientReadDTO updateClient(@PathVariable UUID id, @RequestBody ClientPutDTO put) {
+        return clientService.updateClient(id, put);
     }
 
     @DeleteMapping("/{id}")

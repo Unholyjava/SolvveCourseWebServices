@@ -12,6 +12,6 @@ public class NewsReadExtendedDTO {
     private ContentManagerReadDTO contentManager;;
 
     private String info;
-    private boolean newsMistake;
-    private int likeRating;
+    private Boolean newsMistake;
+    private Integer likeRating;
 }

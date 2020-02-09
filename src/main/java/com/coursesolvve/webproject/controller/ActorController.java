@@ -28,8 +28,8 @@ public class ActorController {
     }
 
     @PutMapping("/{id}")
-    public ActorReadDTO putActor(@PathVariable UUID id, @RequestBody ActorPutDTO put) {
-        return actorService.putActor(id, put);
+    public ActorReadDTO updateActor(@PathVariable UUID id, @RequestBody ActorPutDTO put) {
+        return actorService.updateActor(id, put);
     }
 
     @PatchMapping("/{id}")

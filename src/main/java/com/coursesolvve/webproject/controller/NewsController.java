@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/v1/news")
+@RequestMapping("/api/v1/content-managers/{content-managerId}/news")
 public class NewsController {
 
     @Autowired
@@ -20,9 +20,14 @@ public class NewsController {
         return newsService.getNews(id);
     }
 
-    @GetMapping
+    @GetMapping("/api/v1/content-managers/{content-managerId}")
     public List<NewsReadDTO> getNewsList(NewsFilter filter) {
         return newsService.getNewsList(filter);
+    }
+
+    @GetMapping
+    public List<NewsReadDTO> getContentManagerNews(@PathVariable UUID contentManagerId) {
+        return newsService.getContentManagerNews(contentManagerId);
     }
 
     @PostMapping
@@ -36,8 +41,8 @@ public class NewsController {
     }
 
     @PutMapping("/{id}")
-    public NewsReadDTO putNews(@PathVariable UUID id, @RequestBody NewsPutDTO put) {
-        return newsService.putNews(id, put);
+    public NewsReadDTO updateNews(@PathVariable UUID id, @RequestBody NewsPutDTO put) {
+        return newsService.updateNews(id, put);
     }
 
     @DeleteMapping("/{id}")

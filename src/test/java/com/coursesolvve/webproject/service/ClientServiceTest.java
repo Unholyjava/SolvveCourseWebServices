@@ -56,7 +56,7 @@ public class ClientServiceTest {
         create.setTrust(true);
         create.setReviewRating(6);
         create.setActiveRating(7);
-        create.setBlock(false);
+        create.setIsBlock(false);
         ClientReadDTO read = clientService.createClient(create);
 
         Assertions.assertThat(create).isEqualToComparingFieldByField(read);
@@ -103,7 +103,7 @@ public class ClientServiceTest {
     }
 
     @Test
-    public void testPutClient() {
+    public void testUpdateClient() {
         Client client = createClient();
 
         ClientPutDTO put = new ClientPutDTO();
@@ -117,7 +117,7 @@ public class ClientServiceTest {
         put.setReviewRating(1);
         put.setActiveRating(7);
         put.setIsBlock(false);
-        ClientReadDTO read = clientService.putClient(client.getId(), put);
+        ClientReadDTO read = clientService.updateClient(client.getId(), put);
 
         Assertions.assertThat(put).isEqualToComparingFieldByField(read);
 
@@ -149,7 +149,7 @@ public class ClientServiceTest {
         client.setTrust(true);
         client.setReviewRating(6);
         client.setActiveRating(7);
-        client.setBlock(false);
+        client.setIsBlock(false);
         client = clientRepository.save(client);
         return client;
     }

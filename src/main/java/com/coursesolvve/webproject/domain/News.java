@@ -15,11 +15,11 @@ public class News {
     @GeneratedValue
     private UUID id;
 
+    private String info;
+    private Boolean newsMistake;
+    private Integer likeRating;
+
     @ManyToOne
     @JoinColumn(nullable = false, updatable = false)
     private ContentManager contentManager;
-
-    private String info;
-    private boolean newsMistake;
-    private int likeRating;
 }

@@ -15,6 +15,6 @@ public class ActorReadDTO {
     private String patronymic;
     private String surname;
     private String info;
-    private double ratingFull;
+    private Double ratingFull;
 }
 

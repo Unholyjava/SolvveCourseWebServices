@@ -69,7 +69,7 @@ public class TranslationService {
         }
     }
 
-    public void putEntity(ActorPutDTO put, Actor actor) {
+    public void updateEntity(ActorPutDTO put, Actor actor) {
         actor.setName(put.getName());
         actor.setPatronymic(put.getPatronymic());
         actor.setSurname(put.getSurname());
@@ -81,7 +81,7 @@ public class TranslationService {
         NewsReadExtendedDTO newsReadDTO = new NewsReadExtendedDTO();
         newsReadDTO.setId(news.getId());
         newsReadDTO.setInfo(news.getInfo());
-        newsReadDTO.setNewsMistake(news.isNewsMistake());
+        newsReadDTO.setNewsMistake(news.getNewsMistake());
         newsReadDTO.setLikeRating(news.getLikeRating());
         newsReadDTO.setContentManager(toRead(news.getContentManager()));
         return newsReadDTO;
@@ -91,7 +91,7 @@ public class TranslationService {
         NewsReadDTO newsReadDTO = new NewsReadDTO();
         newsReadDTO.setId(news.getId());
         newsReadDTO.setInfo(news.getInfo());
-        newsReadDTO.setNewsMistake(news.isNewsMistake());
+        newsReadDTO.setNewsMistake(news.getNewsMistake());
         newsReadDTO.setLikeRating(news.getLikeRating());
         return newsReadDTO;
     }
@@ -140,7 +140,7 @@ public class TranslationService {
         }
     }
 
-    public void putEntity(ContentManagerPutDTO put, ContentManager contentManager) {
+    public void updateEntity(ContentManagerPutDTO put, ContentManager contentManager) {
         contentManager.setNickName(put.getNickName());
         contentManager.setLogin(put.getLogin());
         contentManager.setMail(put.getMail());

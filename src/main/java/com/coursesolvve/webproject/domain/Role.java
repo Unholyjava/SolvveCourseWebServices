@@ -23,5 +23,5 @@ public class Role {
 
     private String name;
     private String info;
-    private double ratingFull;
+    private Double ratingFull;
 }

@@ -19,11 +19,6 @@ public class RoleController {
         return roleService.getRole(id);
     }
 
-    /*@GetMapping("/{id}")
-    public RoleReadDTO getRole(@PathVariable UUID id) {
-        return roleService.getRole(id);
-    }*/
-
     @PostMapping
     public RoleReadDTO createRole(@RequestBody RoleCreateDTO createDTO) {
         return roleService.createRole(createDTO);
@@ -35,8 +30,8 @@ public class RoleController {
     }
 
     @PutMapping("/{id}")
-    public RoleReadDTO putRole(@PathVariable UUID id, @RequestBody RolePutDTO put) {
-        return roleService.putRole(id, put);
+    public RoleReadDTO updateRole(@PathVariable UUID id, @RequestBody RolePutDTO put) {
+        return roleService.updateRole(id, put);
     }
 
     @DeleteMapping("/{id}")

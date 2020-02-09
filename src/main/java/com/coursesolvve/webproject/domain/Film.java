@@ -17,7 +17,7 @@ public class Film {
 
     private String name;
     private String info;
-    private double ratingFull;
-    private boolean textMistake;
-    private boolean release;
+    private Double ratingFull;
+    private Boolean textMistake;
+    private Boolean release;
 }

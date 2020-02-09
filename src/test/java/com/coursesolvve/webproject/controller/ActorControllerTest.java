@@ -83,7 +83,7 @@ public class ActorControllerTest {
         create.setPatronymic("Actor_Patronymic");
         create.setSurname("Actor_Surname");
         create.setInfo("This information is only for test2_create");
-        create.setRatingFull(3);
+        create.setRatingFull(3.0);
 
         ActorReadDTO read = createActorRead();
 
@@ -122,7 +122,7 @@ public class ActorControllerTest {
     }
 
     @Test
-    public void testPutActor() throws Exception {
+    public void testUpdateActor() throws Exception {
         ActorPutDTO putDTO = new ActorPutDTO();
         putDTO.setName("Actor_test2_create");
         putDTO.setPatronymic("Actor_Patronymic");
@@ -132,7 +132,7 @@ public class ActorControllerTest {
 
         ActorReadDTO read = createActorRead();
 
-        Mockito.when(actorService.putActor(read.getId(), putDTO)).thenReturn(read);
+        Mockito.when(actorService.updateActor(read.getId(), putDTO)).thenReturn(read);
 
         String resultJson = mvc.perform(put("/api/v1/actors/{id}", read.getId().toString())
                 .content(objectMapper.writeValueAsString(putDTO))
@@ -160,7 +160,7 @@ public class ActorControllerTest {
         read.setPatronymic("Actor_Patronymic");
         read.setSurname("Actor_Surname");
         read.setInfo("This information is only for test");
-        read.setRatingFull(3);
+        read.setRatingFull(3.0);
         return read;
     }
 }

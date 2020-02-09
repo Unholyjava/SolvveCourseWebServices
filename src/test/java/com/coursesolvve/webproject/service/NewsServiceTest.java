@@ -16,6 +16,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.*;
 
@@ -36,6 +37,9 @@ public class NewsServiceTest {
 
     @Autowired
     private NewsService newsService;
+
+    @Autowired
+    private TransactionTemplate transactionTemplate;
 
     @Test
     public void testGetNewsExtended() {
@@ -134,7 +138,6 @@ public class NewsServiceTest {
         NewsReadDTO read = newsService.createNews(create);
         Assertions.assertThat(create).isEqualToComparingFieldByField(read);
         Assert.assertNotNull(read.getId());
-
         News news = newsRepository.findById(read.getId()).get();
         Assertions.assertThat(read).isEqualToIgnoringGivenFields(news, "contentManagerId");
     }
@@ -173,14 +176,14 @@ public class NewsServiceTest {
 
     @Test
     @Transactional
-    public void testPutNews() {
+    public void testUpdateNews() {
         News news = createNews();
 
         NewsPutDTO put = new NewsPutDTO();
         put.setInfo("News_test2_create");
         put.setNewsMistake(false);
         put.setLikeRating(4);
-        NewsReadDTO read = newsService.putNews(news.getId(), put);
+        NewsReadDTO read = newsService.updateNews(news.getId(), put);
 
         Assertions.assertThat(put).isEqualToComparingFieldByField(read);
 

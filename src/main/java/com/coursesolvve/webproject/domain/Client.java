@@ -23,8 +23,8 @@ public class Client extends Customer{
     private String name;
     private String patronymic;
     private String surname;
-    private boolean trust;
-    private int reviewRating;
-    private int activeRating;
-    private boolean isBlock;
+    private Boolean trust;
+    private Integer reviewRating;
+    private Integer activeRating;
+    private Boolean isBlock;
 }

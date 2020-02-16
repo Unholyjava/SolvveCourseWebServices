@@ -83,6 +83,8 @@ public class FilmService {
     private FilmReadDTO toRead(Film film) {
         FilmReadDTO filmReadDTO = new FilmReadDTO();
         filmReadDTO.setId(film.getId());
+        filmReadDTO.setCreatedAt(film.getCreatedAt());
+        filmReadDTO.setUpdatedAt(film.getUpdatedAt());
         filmReadDTO.setName(film.getName());
         filmReadDTO.setInfo(film.getInfo());
         filmReadDTO.setRatingFull(film.getRatingFull());

@@ -108,6 +108,8 @@ public class ClientService {
     private ClientReadDTO toRead(Client client) {
         ClientReadDTO clientReadDTO = new ClientReadDTO();
         clientReadDTO.setId(client.getId());
+        clientReadDTO.setCreatedAt(client.getCreatedAt());
+        clientReadDTO.setUpdatedAt(client.getUpdatedAt());
         clientReadDTO.setNickName(client.getNickName());
         clientReadDTO.setLogin(client.getLogin());
         clientReadDTO.setMail(client.getMail());

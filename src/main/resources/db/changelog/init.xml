@@ -25,6 +25,8 @@
             <column name="id" type="uuid">
                 <constraints primaryKey="true"/>
             </column>
+            <column name="created_at" type="datetime"/>
+            <column name="updated_at" type="datetime"/>
             <column name="name" type="varchar(40)"/>
             <column name="info" type="varchar(1000)"/>
             <column name="rating_full" type="double"/>
@@ -36,6 +38,8 @@
             <column name="id" type="uuid">
                 <constraints primaryKey="true"/>
             </column>
+            <column name="created_at" type="datetime"/>
+            <column name="updated_at" type="datetime"/>
             <column name="name" type="varchar(40)"/>
             <column name="patronymic" type="varchar(40)"/>
             <column name="surname" type="varchar(40)"/>
@@ -47,6 +51,8 @@
             <column name="id" type="uuid">
                 <constraints primaryKey="true"/>
             </column>
+            <column name="created_at" type="datetime"/>
+            <column name="updated_at" type="datetime"/>
             <column name="nick_name" type="varchar(40)"/>
             <column name="login" type="varchar(20)"/>
             <column name="mail" type="varchar(20)"/>
@@ -63,6 +69,8 @@
             <column name="id" type="uuid">
                 <constraints primaryKey="true"/>
             </column>
+            <column name="created_at" type="datetime"/>
+            <column name="updated_at" type="datetime"/>
             <column name="name" type="varchar(20)"/>
             <column name="patronymic" type="varchar(20)"/>
             <column name="surname" type="varchar(20)"/>
@@ -82,6 +90,8 @@
                              referencedColumnNames="id"
                              nullable="false"/>
             </column>
+            <column name="created_at" type="datetime"/>
+            <column name="updated_at" type="datetime"/>
             <column name="name" type="varchar(40)"/>
             <column name="info" type="varchar(1000)"/>
             <column name="rating_full" type="double"/>
@@ -91,6 +101,8 @@
             <column name="id" type="uuid">
                 <constraints primaryKey="true"/>
             </column>
+            <column name="created_at" type="datetime"/>
+            <column name="updated_at" type="datetime"/>
             <column name="nick_name" type="varchar(40)"/>
             <column name="login" type="varchar(20)"/>
             <column name="mail" type="varchar(20)"/>
@@ -110,6 +122,8 @@
                              nullable="false"
                              deleteCascade="true"/>
             </column>
+            <column name="created_at" type="datetime"/>
+            <column name="updated_at" type="datetime"/>
             <column name="info" type="varchar(1000)"/>
             <column name="news_mistake" type="boolean"/>
             <column name="like_rating" type="int"/>

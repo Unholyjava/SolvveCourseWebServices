@@ -29,7 +29,7 @@ public class RoleService {
         role.setInfo(create.getInfo());
         role.setRatingFull(create.getRatingFull());
         role = roleRepository.save(role);
-        return toRead(role);
+        return translationService.toRead(role);
     }
 
     public RoleReadDTO patchRole(UUID id, RolePatchDTO patch) {
@@ -46,7 +46,7 @@ public class RoleService {
         }
 
         role = roleRepository.save(role);
-        return toRead(role);
+        return translationService.toRead(role);
     }
 
     public RoleReadDTO updateRole(UUID id, RolePutDTO put) {
@@ -56,7 +56,7 @@ public class RoleService {
         role.setInfo(put.getInfo());
         role.setRatingFull(put.getRatingFull());
         role = roleRepository.save(role);
-        return toRead(role);
+        return translationService.toRead(role);
     }
 
     public void deleteRole(UUID id) {
@@ -67,14 +67,5 @@ public class RoleService {
         return roleRepository.findById(id).orElseThrow(() -> {
             throw new EntityNotFoundException(Role.class, id);
         });
-    }
-
-    private RoleReadDTO toRead(Role role) {
-        RoleReadDTO roleReadDTO = new RoleReadDTO();
-        roleReadDTO.setId(role.getId());
-        roleReadDTO.setName(role.getName());
-        roleReadDTO.setInfo(role.getInfo());
-        roleReadDTO.setRatingFull(role.getRatingFull());
-        return roleReadDTO;
     }
 }

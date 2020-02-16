@@ -95,6 +95,26 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-pmd-plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>3.13.0</version>
+                <configuration>
+                    <printFailingErrors>true</printFailingErrors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>run-pmd</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>check</goal>
+                            <goal>cpd-check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 </project>

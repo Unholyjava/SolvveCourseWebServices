@@ -139,7 +139,8 @@ public class NewsServiceTest {
         Assertions.assertThat(create).isEqualToComparingFieldByField(read);
         Assert.assertNotNull(read.getId());
         News news = newsRepository.findById(read.getId()).get();
-        Assertions.assertThat(read).isEqualToIgnoringGivenFields(news, "contentManagerId");
+        Assertions.assertThat(read).isEqualToIgnoringGivenFields(news,
+                "contentManagerId");
     }
 
     @Test
@@ -156,7 +157,8 @@ public class NewsServiceTest {
         Assertions.assertThat(patch).isEqualToComparingFieldByField(read);
 
         news = newsRepository.findById(read.getId()).get();
-        Assertions.assertThat(news).isEqualToIgnoringGivenFields(read, "contentManager");
+        Assertions.assertThat(news).isEqualToIgnoringGivenFields(read,
+                "contentManager");
     }
 
     @Test
@@ -171,7 +173,8 @@ public class NewsServiceTest {
         News newsAfterUpdate = newsRepository.findById(read.getId()).get();
         Assertions.assertThat(newsAfterUpdate).hasNoNullFieldsOrPropertiesExcept("contentManager");
 
-        Assertions.assertThat(news).isEqualToIgnoringGivenFields(newsAfterUpdate, "contentManager");
+        Assertions.assertThat(news).isEqualToIgnoringGivenFields(newsAfterUpdate,
+                "contentManager");
     }
 
     @Test

@@ -14,6 +14,7 @@ import com.coursesolvve.webproject.dto.contentmanager.ContentManagerPutDTO;
 import com.coursesolvve.webproject.dto.contentmanager.ContentManagerReadDTO;
 import com.coursesolvve.webproject.dto.news.NewsReadDTO;
 import com.coursesolvve.webproject.dto.news.NewsReadExtendedDTO;
+import com.coursesolvve.webproject.dto.role.RoleReadDTO;
 import com.coursesolvve.webproject.dto.role.RoleReadExtendedDTO;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,8 @@ public class TranslationService {
     public RoleReadExtendedDTO toReadExtended(Role role) {
         RoleReadExtendedDTO roleReadDTO = new RoleReadExtendedDTO();
         roleReadDTO.setId(role.getId());
+        roleReadDTO.setCreatedAt(role.getCreatedAt());
+        roleReadDTO.setUpdatedAt(role.getUpdatedAt());
         roleReadDTO.setName(role.getName());
         roleReadDTO.setInfo(role.getInfo());
         roleReadDTO.setRatingFull(role.getRatingFull());
@@ -30,9 +33,22 @@ public class TranslationService {
         return roleReadDTO;
     }
 
+    public RoleReadDTO toRead(Role role) {
+        RoleReadDTO roleReadDTO = new RoleReadDTO();
+        roleReadDTO.setId(role.getId());
+        roleReadDTO.setCreatedAt(role.getCreatedAt());
+        roleReadDTO.setUpdatedAt(role.getUpdatedAt());
+        roleReadDTO.setName(role.getName());
+        roleReadDTO.setInfo(role.getInfo());
+        roleReadDTO.setRatingFull(role.getRatingFull());
+        return roleReadDTO;
+    }
+
     public ActorReadDTO toRead(Actor actor) {
         ActorReadDTO actorReadDTO = new ActorReadDTO();
         actorReadDTO.setId(actor.getId());
+        actorReadDTO.setCreatedAt(actor.getCreatedAt());
+        actorReadDTO.setUpdatedAt(actor.getUpdatedAt());
         actorReadDTO.setName(actor.getName());
         actorReadDTO.setPatronymic(actor.getPatronymic());
         actorReadDTO.setSurname(actor.getSurname());
@@ -80,6 +96,8 @@ public class TranslationService {
     public NewsReadExtendedDTO toReadExtended(News news) {
         NewsReadExtendedDTO newsReadDTO = new NewsReadExtendedDTO();
         newsReadDTO.setId(news.getId());
+        newsReadDTO.setCreatedAt(news.getCreatedAt());
+        newsReadDTO.setUpdatedAt(news.getUpdatedAt());
         newsReadDTO.setInfo(news.getInfo());
         newsReadDTO.setNewsMistake(news.getNewsMistake());
         newsReadDTO.setLikeRating(news.getLikeRating());
@@ -90,6 +108,8 @@ public class TranslationService {
     public NewsReadDTO toRead(News news) {
         NewsReadDTO newsReadDTO = new NewsReadDTO();
         newsReadDTO.setId(news.getId());
+        newsReadDTO.setCreatedAt(news.getCreatedAt());
+        newsReadDTO.setUpdatedAt(news.getUpdatedAt());
         newsReadDTO.setInfo(news.getInfo());
         newsReadDTO.setNewsMistake(news.getNewsMistake());
         newsReadDTO.setLikeRating(news.getLikeRating());
@@ -99,6 +119,8 @@ public class TranslationService {
     public ContentManagerReadDTO toRead(ContentManager contentManager) {
         ContentManagerReadDTO contentManagerReadDTO = new ContentManagerReadDTO();
         contentManagerReadDTO.setId(contentManager.getId());
+        contentManagerReadDTO.setCreatedAt(contentManager.getCreatedAt());
+        contentManagerReadDTO.setUpdatedAt(contentManager.getUpdatedAt());
         contentManagerReadDTO.setNickName(contentManager.getNickName());
         contentManagerReadDTO.setLogin(contentManager.getLogin());
         contentManagerReadDTO.setMail(contentManager.getMail());

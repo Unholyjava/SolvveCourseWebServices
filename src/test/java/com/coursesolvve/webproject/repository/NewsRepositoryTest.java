@@ -3,6 +3,7 @@ package com.coursesolvve.webproject.repository;
 import com.coursesolvve.webproject.domain.ContentManager;
 import com.coursesolvve.webproject.domain.News;
 import org.assertj.core.api.Assertions;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 
@@ -70,6 +72,47 @@ public class NewsRepositoryTest {
         List<News> result = newsRepository.findNewsForContentManagerInGivenInterval(
                 contentManager1.getId(), Boolean.TRUE, 5, 12);
         Assertions.assertThat(result).extracting(News::getId).isEqualTo(Arrays.asList(news3.getId(), news1.getId()));
+    }
+
+    @Test
+    public void testCreatedAtIsSet() {
+        ContentManager contentManager = createContentManager();
+        News news = new News();
+        news.setContentManager(contentManager);
+        news.setInfo("info test created data");
+        news.setNewsMistake(Boolean.FALSE);
+        news.setLikeRating(9);
+        news = newsRepository.save(news);
+
+        Instant createdAtBeforeReload = news.getCreatedAt();
+        Assert.assertNotNull(createdAtBeforeReload);
+        news = newsRepository.findById(news.getId()).get();
+
+        Instant createdAtAfterReload = news.getCreatedAt();
+        Assert.assertNotNull(createdAtAfterReload);
+        Assert.assertEquals(createdAtBeforeReload, createdAtAfterReload);
+    }
+
+    @Test
+    public void testUpdatedAtIsSet() {
+        ContentManager contentManager = createContentManager();
+        News news = new News();
+        news.setContentManager(contentManager);
+        news.setInfo("info test updated data");
+        news.setNewsMistake(Boolean.FALSE);
+        news.setLikeRating(9);
+        news = newsRepository.save(news);
+
+        Instant createdAt = news.getCreatedAt();
+        Instant updatedAtBeforeReload = news.getUpdatedAt();
+        Assert.assertNotNull(updatedAtBeforeReload);
+        Assert.assertEquals(createdAt, updatedAtBeforeReload);
+
+        news.setNewsMistake(Boolean.TRUE);
+        news = newsRepository.save(news);
+        news = newsRepository.findById(news.getId()).get();
+        Instant updatedAtAfterReload = news.getUpdatedAt();
+        Assert.assertTrue(updatedAtAfterReload.isAfter(updatedAtBeforeReload));
     }
 
     private ContentManager createContentManager() {

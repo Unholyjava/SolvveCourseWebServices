@@ -15,7 +15,7 @@ public class NewsController {
     @Autowired
     private NewsService newsService;
 
-    @GetMapping("/{id}")
+    @GetMapping("/extended/{id}")
     public NewsReadExtendedDTO getNews(@PathVariable UUID id) {
         return newsService.getNews(id);
     }

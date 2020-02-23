@@ -6,7 +6,6 @@ import java.util.UUID;
 
 @Data
 public class NewsFilter {
-    private UUID id;
 
     private UUID contentManagerId;
 

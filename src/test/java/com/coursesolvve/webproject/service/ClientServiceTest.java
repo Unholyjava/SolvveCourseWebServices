@@ -86,7 +86,8 @@ public class ClientServiceTest {
         Assertions.assertThat(patch).isEqualToComparingFieldByField(read);
 
         client = clientRepository.findById(read.getId()).get();
-        Assertions.assertThat(client).isEqualToComparingFieldByField(read);
+        Assertions.assertThat(client).isEqualToIgnoringGivenFields
+                (read, "reviews");
     }
 
     @Test
@@ -99,7 +100,8 @@ public class ClientServiceTest {
         Client clientAfterUpdate = clientRepository.findById(read.getId()).get();
         Assertions.assertThat(clientAfterUpdate).hasNoNullFieldsOrProperties();
 
-        Assertions.assertThat(client).isEqualToComparingFieldByField(clientAfterUpdate);
+        Assertions.assertThat(client).isEqualToIgnoringGivenFields
+                (clientAfterUpdate, "reviews");
     }
 
     @Test
@@ -122,7 +124,8 @@ public class ClientServiceTest {
         Assertions.assertThat(put).isEqualToComparingFieldByField(read);
 
         client = clientRepository.findById(read.getId()).get();
-        Assertions.assertThat(client).isEqualToComparingFieldByField(read);
+        Assertions.assertThat(client).isEqualToIgnoringGivenFields
+                (read, "reviews");
     }
 
     @Test

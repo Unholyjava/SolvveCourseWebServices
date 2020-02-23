@@ -20,19 +20,19 @@ public class NewsController {
         return newsService.getNews(id);
     }
 
-    @GetMapping("/api/v1/content-managers/{content-managerId}")
+    @GetMapping
     public List<NewsReadDTO> getNewsList(NewsFilter filter) {
         return newsService.getNewsList(filter);
     }
 
-    @GetMapping
+    @GetMapping("/{Id}")
     public List<NewsReadDTO> getContentManagerNews(@PathVariable UUID contentManagerId) {
         return newsService.getContentManagerNews(contentManagerId);
     }
 
     @PostMapping
-    public NewsReadDTO createNews(@RequestBody NewsCreateDTO createDTO) {
-        return newsService.createNews(createDTO);
+    public NewsReadDTO createNews(@RequestBody UUID contentManagerId, NewsCreateDTO createDTO) {
+        return newsService.createNews(contentManagerId, createDTO);
     }
 
     @PatchMapping("/{id}")

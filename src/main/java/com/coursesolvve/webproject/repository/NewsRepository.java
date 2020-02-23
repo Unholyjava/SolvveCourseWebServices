@@ -16,5 +16,8 @@ public interface NewsRepository extends CrudRepository<News, UUID>, NewsReposito
     @Query("select n from News n where n.contentManager.id = :contentManagerId " +
             "and n.newsMistake = :newsMistake and n.likeRating >= :from " +
             "and n.likeRating < :to order by n.likeRating asc")
-    List<News> findNewsForContentManagerInGivenInterval(UUID contentManagerId, Boolean newsMistake, Integer from, Integer to);
+    List<News> findNewsForContentManagerInGivenInterval(UUID contentManagerId,
+                                                        Boolean newsMistake,
+                                                        Integer from,
+                                                        Integer to);
 }

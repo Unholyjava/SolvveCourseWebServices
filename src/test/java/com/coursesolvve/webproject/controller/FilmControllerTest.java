@@ -165,7 +165,7 @@ public class FilmControllerTest {
         read.setId(UUID.randomUUID());
         read.setName("Film_test1");
         read.setInfo("This information is only for test");
-        read.setRatingFull(10);
+        read.setRatingFull(10.0);
         read.setTextMistake(false);
         read.setRelease(true);
         return read;

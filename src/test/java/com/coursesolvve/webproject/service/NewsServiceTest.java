@@ -15,10 +15,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import java.util.*;
+import java.util.UUID;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -129,9 +128,10 @@ public class NewsServiceTest {
     }
 
     @Test
-    @Transactional
     public void testCreateNews() {
+        ContentManager contentManager = createContentManager();
         NewsCreateDTO create = new NewsCreateDTO();
+        create.setContentManagerId(contentManager.getId());
         create.setInfo("News_test2_create");
         create.setNewsMistake(false);
         create.setLikeRating(4);
@@ -143,11 +143,20 @@ public class NewsServiceTest {
                 "contentManagerId");
     }
 
+    @Test(expected = javax.persistence.EntityNotFoundException.class)
+    public void testCreateNewsWithWrongContentManager() {
+        NewsCreateDTO create = new NewsCreateDTO();
+        create.setContentManagerId(UUID.randomUUID());
+        create.setInfo("News_test2_create");
+        create.setNewsMistake(false);
+        create.setLikeRating(4);
+
+        newsService.createNews(create);
+    }
+
     @Test
-    @Transactional
     public void testPatchNews() {
         News news = createNews();
-
         NewsPatchDTO patch = new NewsPatchDTO();
         patch.setInfo("News_test2_create");
         patch.setNewsMistake(false);
@@ -162,10 +171,8 @@ public class NewsServiceTest {
     }
 
     @Test
-    @Transactional
     public void testPatchNewsEmptyPatch() {
         News news = createNews();
-
         NewsPatchDTO patch = new NewsPatchDTO();
         NewsReadDTO read = newsService.patchNews(news.getId(), patch);
         Assertions.assertThat(read).hasNoNullFieldsOrPropertiesExcept("contentManagerId");
@@ -178,10 +185,8 @@ public class NewsServiceTest {
     }
 
     @Test
-    @Transactional
     public void testUpdateNews() {
         News news = createNews();
-
         NewsPutDTO put = new NewsPutDTO();
         put.setInfo("News_test2_create");
         put.setNewsMistake(false);
@@ -238,7 +243,10 @@ public class NewsServiceTest {
     }
 
     private News createNews() {
+        ContentManager contentManager = new ContentManager();
+        contentManagerRepository.save(contentManager);
         News news = new News();
+        news.setContentManager(contentManager);
         news.setInfo("News_test1");
         news.setNewsMistake(false);
         news.setLikeRating(4);

@@ -51,7 +51,7 @@ public class RoleControllerTest {
         read.setId(UUID.randomUUID());
         read.setName("Role_test1");
         read.setInfo("This information is only for test");
-        read.setRatingFull(3);
+        read.setRatingFull(3.0);
         return read;
     }
 }

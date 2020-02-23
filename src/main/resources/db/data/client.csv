@@ -1,0 +1,4 @@
+id;nick_name;login;mail;name;patronymic;surname;trust;review_rating;active_rating;is_block
+3c72092a-4023-462c-b36f-adc6de10cdf0;vasyaP;vasya;vasya@gmail.com;Vasiliy;Yuryevich;Petrov;true;10;12;false
+3a074505-79f2-4f90-87ab-ad3e2d8764e5;lexaG;lexa;lexa@i.ua;Alexey;Alexeevich;Gorb;false;8;7;true
+4129569a-a2d3-4185-a58c-f42d8c9b3cba;tolikD;tolik;tolik@ukr.net;Anatoliy;Sergeevich;Til;false;9;6;false

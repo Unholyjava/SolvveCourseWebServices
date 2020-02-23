@@ -12,14 +12,20 @@ import com.coursesolvve.webproject.dto.contentmanager.ContentManagerCreateDTO;
 import com.coursesolvve.webproject.dto.contentmanager.ContentManagerPatchDTO;
 import com.coursesolvve.webproject.dto.contentmanager.ContentManagerPutDTO;
 import com.coursesolvve.webproject.dto.contentmanager.ContentManagerReadDTO;
+import com.coursesolvve.webproject.dto.news.NewsCreateDTO;
 import com.coursesolvve.webproject.dto.news.NewsReadDTO;
 import com.coursesolvve.webproject.dto.news.NewsReadExtendedDTO;
 import com.coursesolvve.webproject.dto.role.RoleReadDTO;
 import com.coursesolvve.webproject.dto.role.RoleReadExtendedDTO;
+import com.coursesolvve.webproject.repository.RepositoryHelper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TranslationService {
+
+    @Autowired
+    private RepositoryHelper repositoryHelper;
 
     public RoleReadExtendedDTO toReadExtended(Role role) {
         RoleReadExtendedDTO roleReadDTO = new RoleReadExtendedDTO();
@@ -108,12 +114,23 @@ public class TranslationService {
     public NewsReadDTO toRead(News news) {
         NewsReadDTO newsReadDTO = new NewsReadDTO();
         newsReadDTO.setId(news.getId());
+        newsReadDTO.setContentManagerId(news.getContentManager().getId());
         newsReadDTO.setCreatedAt(news.getCreatedAt());
         newsReadDTO.setUpdatedAt(news.getUpdatedAt());
         newsReadDTO.setInfo(news.getInfo());
         newsReadDTO.setNewsMistake(news.getNewsMistake());
         newsReadDTO.setLikeRating(news.getLikeRating());
         return newsReadDTO;
+    }
+
+    public News toEntity(NewsCreateDTO createDTO) {
+        News news = new News();
+        news.setInfo(createDTO.getInfo());
+        news.setNewsMistake(createDTO.getNewsMistake());
+        news.setLikeRating(createDTO.getLikeRating());
+        news.setContentManager(repositoryHelper.getReferenceIfExist
+                (ContentManager.class, createDTO.getContentManagerId()));
+        return news;
     }
 
     public ContentManagerReadDTO toRead(ContentManager contentManager) {

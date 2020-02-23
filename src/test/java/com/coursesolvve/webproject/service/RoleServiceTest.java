@@ -15,7 +15,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -52,12 +51,11 @@ public class RoleServiceTest {
     }
 
     @Test
-    @Transactional
     public void testCreateRole() {
         RoleCreateDTO create = new RoleCreateDTO();
         create.setName("Role_test2_create");
         create.setInfo("This information is only for test2_create");
-        create.setRatingFull(2);
+        create.setRatingFull(2.0);
         RoleReadDTO read = roleService.createRole(create);
         Assertions.assertThat(create).isEqualToComparingFieldByField(read);
         Assert.assertNotNull(read.getId());
@@ -67,7 +65,6 @@ public class RoleServiceTest {
     }
 
     @Test
-    @Transactional
     public void testPatchRole() {
         Role role = createRole();
 
@@ -84,7 +81,6 @@ public class RoleServiceTest {
     }
 
     @Test
-    @Transactional
     public void testPatchRoleEmptyPatch() {
         Role role = createRole();
 
@@ -99,7 +95,6 @@ public class RoleServiceTest {
     }
 
     @Test
-    @Transactional
     public void testUpdateRole() {
         Role role = createRole();
 

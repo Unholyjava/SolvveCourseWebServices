@@ -1,9 +1,11 @@
 package com.coursesolvve.webproject.service;
 
+import com.coursesolvve.webproject.domain.ContentManager;
 import com.coursesolvve.webproject.domain.News;
 import com.coursesolvve.webproject.dto.news.*;
 import com.coursesolvve.webproject.exception.EntityNotFoundException;
 import com.coursesolvve.webproject.repository.NewsRepository;
+import com.coursesolvve.webproject.repository.RepositoryHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,9 @@ public class NewsService {
     @Autowired
     private TranslationService translationService;
 
+    @Autowired
+    private RepositoryHelper repositoryHelper;
+
     public NewsReadExtendedDTO getNews(UUID id) {
         News news = getNewsRequired(id);
         return translationService.toReadExtended(news);
@@ -32,16 +37,21 @@ public class NewsService {
 
     public List<NewsReadDTO> getContentManagerNews (UUID contentManagerId) {
         NewsFilter newsFilter = new NewsFilter();
-        newsFilter.setId(contentManagerId);
+        newsFilter.setContentManagerId(contentManagerId);
         List<News> newsList = newsRepository.findByFilter(newsFilter);
         return newsList.stream().map(translationService::toRead).collect(Collectors.toList());
     }
 
     public NewsReadDTO createNews(NewsCreateDTO create) {
-        News news = new News();
-        news.setInfo(create.getInfo());
-        news.setNewsMistake(create.getNewsMistake());
-        news.setLikeRating(create.getLikeRating());
+        News news = translationService.toEntity(create);
+        news = newsRepository.save(news);
+        return translationService.toRead(news);
+    }
+
+    public NewsReadDTO createNews(UUID contentManagerId, NewsCreateDTO create) {
+        News news = translationService.toEntity(create);
+        news.setContentManager(repositoryHelper.getReferenceIfExist
+                (ContentManager.class, contentManagerId));
         news = newsRepository.save(news);
         return translationService.toRead(news);
     }

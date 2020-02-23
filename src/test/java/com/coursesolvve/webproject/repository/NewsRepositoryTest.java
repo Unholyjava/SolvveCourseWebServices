@@ -55,8 +55,10 @@ public class NewsRepositoryTest {
         createNews(contentManager2, Boolean.TRUE, "info22", 4);
         News news3 = createNews(contentManager1, Boolean.TRUE, "info3", 5);
 
-        List<News> result = newsRepository.findByContentManagerIdAndNewsMistakeOrderByLikeRatingAsc(contentManager1.getId(), Boolean.TRUE);
-        Assertions.assertThat(result).extracting(News::getId).isEqualTo(Arrays.asList(news2.getId(), news3.getId(), news1.getId()));
+        List<News> result = newsRepository.findByContentManagerIdAndNewsMistakeOrderByLikeRatingAsc
+                (contentManager1.getId(), Boolean.TRUE);
+        Assertions.assertThat(result).extracting(News::getId).isEqualTo
+                (Arrays.asList(news2.getId(), news3.getId(), news1.getId()));
     }
 
     @Test

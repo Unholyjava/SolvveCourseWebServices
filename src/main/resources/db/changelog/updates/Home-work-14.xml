@@ -1,0 +1,38 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="create tables" author="dbadmin">
+        <createTable tableName="review">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="client_id" type="uuid">
+                <constraints foreignKeyName="fk_c_id"
+                         referencedTableName="client"
+                         referencedColumnNames="id"
+                         nullable="false"
+                         deleteCascade="true"/>
+            </column>
+            <column name="created_at" type="datetime"/>
+            <column name="updated_at" type="datetime"/>
+            <column name="review_status" type="varchar(15)"/>
+            <column name="film_review" type="varchar(1000)"/>
+            <column name="film_rating" type="int"/>
+            <column name="role_review" type="varchar(1000)"/>
+            <column name="review_mistake" type="boolean"/>
+            <column name="like_rating" type="int"/>
+            <column name="data_review" type="datetime"/>
+        </createTable>
+        <sql> ALTER TABLE review ADD CONSTRAINT check_reviewStatus CHECK (review_status = 'NEW'
+            OR review_status = 'MODERATED' OR review_status = 'OK' OR review_status = 'OK_REWRITED'
+            OR review_status = 'CANCELED')
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

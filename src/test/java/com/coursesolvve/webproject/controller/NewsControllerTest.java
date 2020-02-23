@@ -19,7 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.List;
 import java.util.UUID;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -53,9 +53,9 @@ public class NewsControllerTest {
         List<NewsReadDTO> expectedResult = List.of(read);
         Mockito.when(newsService.getNewsList(newsFilter)).thenReturn(expectedResult);
 
-        String resultJson = mvc.perform(get("/api/v1/content-managers/{content-managerId}/news")
+        String resultJson = mvc.perform(get("/api/v1/content-managers/{content-managerId}")
                 .param("contentManagerId", newsFilter.getContentManagerId().toString())
-                .param("newsMistake", "true")
+                .param("newsMistake", newsFilter.getNewsMistake().toString())
                 .param("likeRatingFrom", newsFilter.getLikeRatingFrom().toString())
                 .param("likeRatingTo", newsFilter.getLikeRatingTo().toString()))
                 .andExpect(status().isOk()).andReturn().getResponse().getContentAsString();

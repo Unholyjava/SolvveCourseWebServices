@@ -28,12 +28,14 @@ public class ContentManagerController {
     }
 
     @PutMapping("/{id}")
-    public ContentManagerReadDTO updateContentManager(@PathVariable UUID id, @RequestBody ContentManagerPutDTO put) {
+    public ContentManagerReadDTO updateContentManager(@PathVariable UUID id,
+                                                      @RequestBody ContentManagerPutDTO put) {
         return contentManagerService.updateContentManager(id, put);
     }
 
     @PatchMapping("/{id}")
-    public ContentManagerReadDTO patchContentManager(@PathVariable UUID id, @RequestBody ContentManagerPatchDTO patch) {
+    public ContentManagerReadDTO patchContentManager(@PathVariable UUID id,
+                                                     @RequestBody ContentManagerPatchDTO patch) {
         return contentManagerService.patchContentManager(id, patch);
     }
 

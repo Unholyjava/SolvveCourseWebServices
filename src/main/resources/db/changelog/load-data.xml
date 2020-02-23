@@ -26,6 +26,72 @@
             <column name="news_mistake" type="boolean"/>
             <column name="like_rating" type="numeric"/>
         </loadUpdateData>
+
+        <loadUpdateData tableName="genre" file="db/data/genre.csv" separator=";" primaryKey="id">
+            <column name="id" type="uuid"/>
+            <column name="genre_type" type="string"/>
+        </loadUpdateData>
+
+        <loadUpdateData tableName="film" file="db/data/film.csv" separator=";" primaryKey="id">
+            <column name="id" type="uuid"/>
+            <column name="name" type="string"/>
+            <column name="info" type="string"/>
+            <column name="rating_full" type="numeric"/>
+            <column name="text_mistake" type="boolean"/>
+            <column name="release" type="boolean"/>
+        </loadUpdateData>
+
+        <loadUpdateData tableName="actor" file="db/data/actor.csv" separator=";" primaryKey="id">
+            <column name="id" type="uuid"/>
+            <column name="name" type="string"/>
+            <column name="patronymic" type="string"/>
+            <column name="surname" type="string"/>
+            <column name="info" type="string"/>
+            <column name="rating_full" type="numeric"/>
+        </loadUpdateData>
+
+        <loadUpdateData tableName="client" file="db/data/client.csv" separator=";" primaryKey="id">
+            <column name="id" type="uuid"/>
+            <column name="nick_name" type="string"/>
+            <column name="login" type="string"/>
+            <column name="mail" type="string"/>
+            <column name="name" type="string"/>
+            <column name="patronymic" type="string"/>
+            <column name="surname" type="string"/>
+            <column name="trust" type="boolean"/>
+            <column name="review_rating" type="numeric"/>
+            <column name="active_rating" type="numeric"/>
+            <column name="is_block" type="boolean"/>
+        </loadUpdateData>
+
+        <loadUpdateData tableName="maker" file="db/data/maker.csv" separator=";" primaryKey="id">
+            <column name="id" type="uuid"/>
+            <column name="name" type="string"/>
+            <column name="patronymic" type="string"/>
+            <column name="surname" type="string"/>
+            <column name="creator_type" type="string"/>
+        </loadUpdateData>
+
+        <loadUpdateData tableName="role" file="db/data/role.csv" separator=";" primaryKey="id">
+            <column name="id" type="uuid"/>
+            <column name="actor_id" type="uuid"/>
+            <column name="name" type="string"/>
+            <column name="info" type="string"/>
+            <column name="rating_full" type="numeric"/>
+        </loadUpdateData>
+
+        <loadUpdateData tableName="review" file="db/data/review.csv" separator=";" primaryKey="id">
+            <column name="id" type="uuid"/>
+            <column name="client_id" type="uuid"/>
+            <column name="review_status" type="string"/>
+            <column name="film_review" type="string"/>
+            <column name="film_rating" type="numeric"/>
+            <column name="role_review" type="string"/>
+            <column name="review_mistake" type="boolean"/>
+            <column name="like_rating" type="numeric"/>
+            <column name="data_review" type="datetime"/>
+        </loadUpdateData>
+
     </changeSet>
 
 </databaseChangeLog>

@@ -16,6 +16,6 @@ public class RoleReadDTO {
 
     private String name;
     private String info;
-    private double ratingFull;
+    private Double ratingFull;
 }
 

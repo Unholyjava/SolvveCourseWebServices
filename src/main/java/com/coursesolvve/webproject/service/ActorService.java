@@ -5,8 +5,8 @@ import com.coursesolvve.webproject.dto.actor.ActorCreateDTO;
 import com.coursesolvve.webproject.dto.actor.ActorPatchDTO;
 import com.coursesolvve.webproject.dto.actor.ActorPutDTO;
 import com.coursesolvve.webproject.dto.actor.ActorReadDTO;
-import com.coursesolvve.webproject.exception.EntityNotFoundException;
 import com.coursesolvve.webproject.repository.ActorRepository;
+import com.coursesolvve.webproject.repository.RepositoryHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +21,11 @@ public class ActorService {
     @Autowired
     private TranslationService translationService;
 
+    @Autowired
+    private RepositoryHelper repositoryHelper;
+
     public ActorReadDTO getActor(UUID id) {
-        Actor actor = getActorRequired(id);
+        Actor actor = repositoryHelper.getEntityRequired(Actor.class, id);
         return translationService.toRead(actor);
     }
 
@@ -34,7 +37,7 @@ public class ActorService {
     }
 
     public ActorReadDTO patchActor(UUID id, ActorPatchDTO patch) {
-        Actor actor = getActorRequired(id);
+        Actor actor = repositoryHelper.getEntityRequired(Actor.class, id);
 
         translationService.patchEntity(patch, actor);
 
@@ -43,7 +46,7 @@ public class ActorService {
     }
 
     public ActorReadDTO updateActor(UUID id, ActorPutDTO put) {
-        Actor actor = getActorRequired(id);
+        Actor actor = repositoryHelper.getEntityRequired(Actor.class, id);
 
         translationService.updateEntity(put, actor);
 
@@ -52,12 +55,6 @@ public class ActorService {
     }
 
     public void deleteActor(UUID id) {
-        actorRepository.delete(getActorRequired(id));
-    }
-
-    private Actor getActorRequired(UUID id) {
-        return actorRepository.findById(id).orElseThrow(() -> {
-            throw new EntityNotFoundException(Actor.class, id);
-        });
+        actorRepository.delete(repositoryHelper.getEntityRequired(Actor.class, id));
     }
 }

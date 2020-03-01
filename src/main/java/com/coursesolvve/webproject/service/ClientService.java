@@ -5,8 +5,8 @@ import com.coursesolvve.webproject.dto.client.ClientCreateDTO;
 import com.coursesolvve.webproject.dto.client.ClientPatchDTO;
 import com.coursesolvve.webproject.dto.client.ClientPutDTO;
 import com.coursesolvve.webproject.dto.client.ClientReadDTO;
-import com.coursesolvve.webproject.exception.EntityNotFoundException;
 import com.coursesolvve.webproject.repository.ClientRepository;
+import com.coursesolvve.webproject.repository.RepositoryHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +18,11 @@ public class ClientService {
     @Autowired
     private ClientRepository clientRepository;
 
+    @Autowired
+    private RepositoryHelper repositoryHelper;
+
     public ClientReadDTO getClient(UUID id) {
-        Client client = getClientRequired(id);
+        Client client = repositoryHelper.getEntityRequired(Client.class, id);
         return toRead(client);
     }
 
@@ -40,7 +43,7 @@ public class ClientService {
     }
 
     public ClientReadDTO patchClient(UUID id, ClientPatchDTO patch) {
-        Client client = getClientRequired(id);
+        Client client = repositoryHelper.getEntityRequired(Client.class, id);
 
         if (patch.getNickName() != null) {
             client.setNickName(patch.getNickName());
@@ -78,7 +81,7 @@ public class ClientService {
     }
 
     public ClientReadDTO updateClient(UUID id, ClientPutDTO put) {
-        Client client = getClientRequired(id);
+        Client client = repositoryHelper.getEntityRequired(Client.class, id);
 
         client.setNickName(put.getNickName());
         client.setLogin(put.getLogin());
@@ -96,13 +99,7 @@ public class ClientService {
     }
 
     public void deleteClient(UUID id) {
-        clientRepository.delete(getClientRequired(id));
-    }
-
-    private Client getClientRequired(UUID id) {
-        return clientRepository.findById(id).orElseThrow(() -> {
-            throw new EntityNotFoundException(Client.class, id);
-        });
+        clientRepository.delete(repositoryHelper.getEntityRequired(Client.class, id));
     }
 
     private ClientReadDTO toRead(Client client) {

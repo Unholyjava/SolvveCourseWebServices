@@ -63,7 +63,7 @@ public class NewsServiceTest {
         News n3 = createNews(cm1);
 
         NewsFilter filter = new NewsFilter();
-        Assertions.assertThat(newsService.getNewsList(filter)).extracting("id")
+        Assertions.assertThat(newsService.getListOfNews(filter)).extracting("id")
                 .containsExactlyInAnyOrder(n1.getId(), n2.getId(), n3.getId());
     }
 
@@ -77,7 +77,7 @@ public class NewsServiceTest {
 
         NewsFilter filter = new NewsFilter();
         filter.setContentManagerId(cm1.getId());
-        Assertions.assertThat(newsService.getNewsList(filter)).extracting("id")
+        Assertions.assertThat(newsService.getListOfNews(filter)).extracting("id")
                 .containsExactlyInAnyOrder(n1.getId(), n3.getId());
     }
 
@@ -91,7 +91,7 @@ public class NewsServiceTest {
 
         NewsFilter filter = new NewsFilter();
         filter.setNewsMistake(Boolean.TRUE);
-        Assertions.assertThat(newsService.getNewsList(filter)).extracting("id")
+        Assertions.assertThat(newsService.getListOfNews(filter)).extracting("id")
                 .containsExactlyInAnyOrder(n1.getId(), n3.getId());
     }
 
@@ -106,7 +106,7 @@ public class NewsServiceTest {
         NewsFilter filter = new NewsFilter();
         filter.setLikeRatingFrom(5);
         filter.setLikeRatingTo(13);
-        Assertions.assertThat(newsService.getNewsList(filter)).extracting("id")
+        Assertions.assertThat(newsService.getListOfNews(filter)).extracting("id")
                 .containsExactlyInAnyOrder(n1.getId(), n3.getId());
     }
 
@@ -123,7 +123,7 @@ public class NewsServiceTest {
         filter.setNewsMistake(Boolean.TRUE);
         filter.setLikeRatingFrom(5);
         filter.setLikeRatingTo(13);
-        Assertions.assertThat(newsService.getNewsList(filter)).extracting("id")
+        Assertions.assertThat(newsService.getListOfNews(filter)).extracting("id")
                 .containsExactlyInAnyOrder(n3.getId());
     }
 
@@ -143,7 +143,7 @@ public class NewsServiceTest {
                 "contentManagerId");
     }
 
-    @Test(expected = javax.persistence.EntityNotFoundException.class)
+    @Test(expected = EntityNotFoundException.class)
     public void testCreateNewsWithWrongContentManager() {
         NewsCreateDTO create = new NewsCreateDTO();
         create.setContentManagerId(UUID.randomUUID());

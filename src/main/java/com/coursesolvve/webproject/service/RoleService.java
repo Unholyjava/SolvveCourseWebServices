@@ -2,7 +2,7 @@ package com.coursesolvve.webproject.service;
 
 import com.coursesolvve.webproject.domain.Role;
 import com.coursesolvve.webproject.dto.role.*;
-import com.coursesolvve.webproject.exception.EntityNotFoundException;
+import com.coursesolvve.webproject.repository.RepositoryHelper;
 import com.coursesolvve.webproject.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,8 +18,11 @@ public class RoleService {
     @Autowired
     private TranslationService translationService;
 
+    @Autowired
+    private RepositoryHelper repositoryHelper;
+
     public RoleReadExtendedDTO getRole(UUID id) {
-        Role role = getRoleRequired(id);
+        Role role = repositoryHelper.getEntityRequired(Role.class, id);
         return translationService.toReadExtended(role);
     }
 
@@ -33,7 +36,7 @@ public class RoleService {
     }
 
     public RoleReadDTO patchRole(UUID id, RolePatchDTO patch) {
-        Role role = getRoleRequired(id);
+        Role role = repositoryHelper.getEntityRequired(Role.class, id);
 
         if (patch.getName() != null) {
             role.setName(patch.getName());
@@ -50,7 +53,7 @@ public class RoleService {
     }
 
     public RoleReadDTO updateRole(UUID id, RolePutDTO put) {
-        Role role = getRoleRequired(id);
+        Role role = repositoryHelper.getEntityRequired(Role.class, id);
 
         role.setName(put.getName());
         role.setInfo(put.getInfo());
@@ -60,12 +63,6 @@ public class RoleService {
     }
 
     public void deleteRole(UUID id) {
-        roleRepository.delete(getRoleRequired(id));
-    }
-
-    private Role getRoleRequired(UUID id) {
-        return roleRepository.findById(id).orElseThrow(() -> {
-            throw new EntityNotFoundException(Role.class, id);
-        });
+        roleRepository.delete(repositoryHelper.getEntityRequired(Role.class, id));
     }
 }

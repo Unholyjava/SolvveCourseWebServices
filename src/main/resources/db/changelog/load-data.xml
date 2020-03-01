@@ -92,6 +92,13 @@
             <column name="data_review" type="datetime"/>
         </loadUpdateData>
 
+        <loadUpdateData tableName="client_like" file="db/data/clientLike.csv" separator=";" primaryKey="id">
+            <column name="id" type="uuid"/>
+            <column name="like" type="boolean"/>
+            <column name="liked_object_id" type="uuid"/>
+            <column name="like_type" type="string"/>
+        </loadUpdateData>
+
     </changeSet>
 
 </databaseChangeLog>

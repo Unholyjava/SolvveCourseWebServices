@@ -5,8 +5,8 @@ import com.coursesolvve.webproject.dto.contentmanager.ContentManagerCreateDTO;
 import com.coursesolvve.webproject.dto.contentmanager.ContentManagerPatchDTO;
 import com.coursesolvve.webproject.dto.contentmanager.ContentManagerPutDTO;
 import com.coursesolvve.webproject.dto.contentmanager.ContentManagerReadDTO;
-import com.coursesolvve.webproject.exception.EntityNotFoundException;
 import com.coursesolvve.webproject.repository.ContentManagerRepository;
+import com.coursesolvve.webproject.repository.RepositoryHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +21,12 @@ public class ContentManagerService {
     @Autowired
     private TranslationService translationService;
 
+    @Autowired
+    private RepositoryHelper repositoryHelper;
+
     public ContentManagerReadDTO getContentManager(UUID id) {
-        ContentManager contentManager = getContentManagerRequired(id);
+        ContentManager contentManager =
+                repositoryHelper.getEntityRequired(ContentManager.class, id);
         return translationService.toRead(contentManager);
     }
 
@@ -34,7 +38,8 @@ public class ContentManagerService {
     }
 
     public ContentManagerReadDTO patchContentManager(UUID id, ContentManagerPatchDTO patch) {
-        ContentManager contentManager = getContentManagerRequired(id);
+        ContentManager contentManager =
+                repositoryHelper.getEntityRequired(ContentManager.class, id);
 
         translationService.patchEntity(patch, contentManager);
 
@@ -43,7 +48,8 @@ public class ContentManagerService {
     }
 
     public ContentManagerReadDTO updateContentManager(UUID id, ContentManagerPutDTO put) {
-        ContentManager contentManager = getContentManagerRequired(id);
+        ContentManager contentManager =
+                repositoryHelper.getEntityRequired(ContentManager.class, id);
 
         translationService.updateEntity(put, contentManager);
 
@@ -52,12 +58,7 @@ public class ContentManagerService {
     }
 
     public void deleteContentManager(UUID id) {
-        contentManagerRepository.delete(getContentManagerRequired(id));
-    }
-
-    private ContentManager getContentManagerRequired(UUID id) {
-        return contentManagerRepository.findById(id).orElseThrow(() -> {
-            throw new EntityNotFoundException(ContentManager.class, id);
-        });
+        contentManagerRepository.delete(
+                repositoryHelper.getEntityRequired(ContentManager.class, id));
     }
 }

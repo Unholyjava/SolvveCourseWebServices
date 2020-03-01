@@ -5,8 +5,8 @@ import com.coursesolvve.webproject.dto.film.FilmCreateDTO;
 import com.coursesolvve.webproject.dto.film.FilmPatchDTO;
 import com.coursesolvve.webproject.dto.film.FilmPutDTO;
 import com.coursesolvve.webproject.dto.film.FilmReadDTO;
-import com.coursesolvve.webproject.exception.EntityNotFoundException;
 import com.coursesolvve.webproject.repository.FilmRepository;
+import com.coursesolvve.webproject.repository.RepositoryHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +18,11 @@ public class FilmService {
     @Autowired
     private FilmRepository filmRepository;
 
+    @Autowired
+    private RepositoryHelper repositoryHelper;
+
     public FilmReadDTO getFilm(UUID id) {
-        Film film = getFilmRequired(id);
+        Film film = repositoryHelper.getEntityRequired(Film.class, id);
         return toRead(film);
     }
 
@@ -35,7 +38,7 @@ public class FilmService {
     }
 
     public FilmReadDTO patchFilm(UUID id, FilmPatchDTO patch) {
-        Film film = getFilmRequired(id);
+        Film film = repositoryHelper.getEntityRequired(Film.class, id);
 
         if (patch.getName() != null) {
             film.setName(patch.getName());
@@ -58,7 +61,7 @@ public class FilmService {
     }
 
     public FilmReadDTO updateFilm(UUID id, FilmPutDTO put) {
-        Film film = getFilmRequired(id);
+        Film film = repositoryHelper.getEntityRequired(Film.class, id);
 
         film.setName(put.getName());
         film.setInfo(put.getInfo());
@@ -71,13 +74,7 @@ public class FilmService {
     }
 
     public void deleteFilm(UUID id) {
-        filmRepository.delete(getFilmRequired(id));
-    }
-
-    private Film getFilmRequired(UUID id) {
-        return filmRepository.findById(id).orElseThrow(() -> {
-            throw new EntityNotFoundException(Film.class, id);
-        });
+        filmRepository.delete(repositoryHelper.getEntityRequired(Film.class, id));
     }
 
     private FilmReadDTO toRead(Film film) {

@@ -39,6 +39,18 @@ public class TranslationService {
         return roleReadDTO;
     }
 
+    public NewsReadExtendedDTO toReadExtended(News news) {
+        NewsReadExtendedDTO newsReadDTO = new NewsReadExtendedDTO();
+        newsReadDTO.setId(news.getId());
+        newsReadDTO.setCreatedAt(news.getCreatedAt());
+        newsReadDTO.setUpdatedAt(news.getUpdatedAt());
+        newsReadDTO.setInfo(news.getInfo());
+        newsReadDTO.setNewsMistake(news.getNewsMistake());
+        newsReadDTO.setLikeRating(news.getLikeRating());
+        newsReadDTO.setContentManager(toRead(news.getContentManager()));
+        return newsReadDTO;
+    }
+
     public RoleReadDTO toRead(Role role) {
         RoleReadDTO roleReadDTO = new RoleReadDTO();
         roleReadDTO.setId(role.getId());
@@ -48,6 +60,18 @@ public class TranslationService {
         roleReadDTO.setInfo(role.getInfo());
         roleReadDTO.setRatingFull(role.getRatingFull());
         return roleReadDTO;
+    }
+
+    public NewsReadDTO toRead(News news) {
+        NewsReadDTO newsReadDTO = new NewsReadDTO();
+        newsReadDTO.setId(news.getId());
+        newsReadDTO.setContentManagerId(news.getContentManager().getId());
+        newsReadDTO.setCreatedAt(news.getCreatedAt());
+        newsReadDTO.setUpdatedAt(news.getUpdatedAt());
+        newsReadDTO.setInfo(news.getInfo());
+        newsReadDTO.setNewsMistake(news.getNewsMistake());
+        newsReadDTO.setLikeRating(news.getLikeRating());
+        return newsReadDTO;
     }
 
     public ActorReadDTO toRead(Actor actor) {
@@ -63,6 +87,30 @@ public class TranslationService {
         return actorReadDTO;
     }
 
+    public ContentManagerReadDTO toRead(ContentManager contentManager) {
+        ContentManagerReadDTO contentManagerReadDTO = new ContentManagerReadDTO();
+        contentManagerReadDTO.setId(contentManager.getId());
+        contentManagerReadDTO.setCreatedAt(contentManager.getCreatedAt());
+        contentManagerReadDTO.setUpdatedAt(contentManager.getUpdatedAt());
+        contentManagerReadDTO.setNickName(contentManager.getNickName());
+        contentManagerReadDTO.setLogin(contentManager.getLogin());
+        contentManagerReadDTO.setMail(contentManager.getMail());
+        contentManagerReadDTO.setName(contentManager.getName());
+        contentManagerReadDTO.setPatronymic(contentManager.getPatronymic());
+        contentManagerReadDTO.setSurname(contentManager.getSurname());
+        return contentManagerReadDTO;
+    }
+
+    public News toEntity(NewsCreateDTO createDTO) {
+        News news = new News();
+        news.setInfo(createDTO.getInfo());
+        news.setNewsMistake(createDTO.getNewsMistake());
+        news.setLikeRating(createDTO.getLikeRating());
+        news.setContentManager(repositoryHelper.getReferenceIfExist(
+                ContentManager.class, createDTO.getContentManagerId()));
+        return news;
+    }
+
     public Actor toEntity(ActorCreateDTO create) {
         Actor actor = new Actor();
         actor.setName(create.getName());
@@ -71,6 +119,17 @@ public class TranslationService {
         actor.setInfo(create.getInfo());
         actor.setRatingFull(create.getRatingFull());
         return actor;
+    }
+
+    public ContentManager toEntity(ContentManagerCreateDTO create) {
+        ContentManager contentManager = new ContentManager();
+        contentManager.setNickName(create.getNickName());
+        contentManager.setLogin(create.getLogin());
+        contentManager.setMail(create.getMail());
+        contentManager.setName(create.getName());
+        contentManager.setPatronymic(create.getPatronymic());
+        contentManager.setSurname(create.getSurname());
+        return contentManager;
     }
 
     public void patchEntity(ActorPatchDTO patch, Actor actor) {
@@ -89,73 +148,6 @@ public class TranslationService {
         if (patch.getRatingFull() != null) {
             actor.setRatingFull(patch.getRatingFull());
         }
-    }
-
-    public void updateEntity(ActorPutDTO put, Actor actor) {
-        actor.setName(put.getName());
-        actor.setPatronymic(put.getPatronymic());
-        actor.setSurname(put.getSurname());
-        actor.setInfo(put.getInfo());
-        actor.setRatingFull(put.getRatingFull());
-    }
-
-    public NewsReadExtendedDTO toReadExtended(News news) {
-        NewsReadExtendedDTO newsReadDTO = new NewsReadExtendedDTO();
-        newsReadDTO.setId(news.getId());
-        newsReadDTO.setCreatedAt(news.getCreatedAt());
-        newsReadDTO.setUpdatedAt(news.getUpdatedAt());
-        newsReadDTO.setInfo(news.getInfo());
-        newsReadDTO.setNewsMistake(news.getNewsMistake());
-        newsReadDTO.setLikeRating(news.getLikeRating());
-        newsReadDTO.setContentManager(toRead(news.getContentManager()));
-        return newsReadDTO;
-    }
-
-    public NewsReadDTO toRead(News news) {
-        NewsReadDTO newsReadDTO = new NewsReadDTO();
-        newsReadDTO.setId(news.getId());
-        newsReadDTO.setContentManagerId(news.getContentManager().getId());
-        newsReadDTO.setCreatedAt(news.getCreatedAt());
-        newsReadDTO.setUpdatedAt(news.getUpdatedAt());
-        newsReadDTO.setInfo(news.getInfo());
-        newsReadDTO.setNewsMistake(news.getNewsMistake());
-        newsReadDTO.setLikeRating(news.getLikeRating());
-        return newsReadDTO;
-    }
-
-    public News toEntity(NewsCreateDTO createDTO) {
-        News news = new News();
-        news.setInfo(createDTO.getInfo());
-        news.setNewsMistake(createDTO.getNewsMistake());
-        news.setLikeRating(createDTO.getLikeRating());
-        news.setContentManager(repositoryHelper.getReferenceIfExist
-                (ContentManager.class, createDTO.getContentManagerId()));
-        return news;
-    }
-
-    public ContentManagerReadDTO toRead(ContentManager contentManager) {
-        ContentManagerReadDTO contentManagerReadDTO = new ContentManagerReadDTO();
-        contentManagerReadDTO.setId(contentManager.getId());
-        contentManagerReadDTO.setCreatedAt(contentManager.getCreatedAt());
-        contentManagerReadDTO.setUpdatedAt(contentManager.getUpdatedAt());
-        contentManagerReadDTO.setNickName(contentManager.getNickName());
-        contentManagerReadDTO.setLogin(contentManager.getLogin());
-        contentManagerReadDTO.setMail(contentManager.getMail());
-        contentManagerReadDTO.setName(contentManager.getName());
-        contentManagerReadDTO.setPatronymic(contentManager.getPatronymic());
-        contentManagerReadDTO.setSurname(contentManager.getSurname());
-        return contentManagerReadDTO;
-    }
-
-    public ContentManager toEntity(ContentManagerCreateDTO create) {
-        ContentManager contentManager = new ContentManager();
-        contentManager.setNickName(create.getNickName());
-        contentManager.setLogin(create.getLogin());
-        contentManager.setMail(create.getMail());
-        contentManager.setName(create.getName());
-        contentManager.setPatronymic(create.getPatronymic());
-        contentManager.setSurname(create.getSurname());
-        return contentManager;
     }
 
     public void patchEntity(ContentManagerPatchDTO patch, ContentManager contentManager) {
@@ -177,6 +169,14 @@ public class TranslationService {
         if (patch.getSurname() != null) {
             contentManager.setSurname(patch.getSurname());
         }
+    }
+
+    public void updateEntity(ActorPutDTO put, Actor actor) {
+        actor.setName(put.getName());
+        actor.setPatronymic(put.getPatronymic());
+        actor.setSurname(put.getSurname());
+        actor.setInfo(put.getInfo());
+        actor.setRatingFull(put.getRatingFull());
     }
 
     public void updateEntity(ContentManagerPutDTO put, ContentManager contentManager) {

@@ -8,14 +8,14 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.Instant;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Getter
 @Setter
 @EntityListeners(AuditingEntityListener.class)
-public class Client extends Customer {
+@Table(name = "client_like")
+public class Like {
 
     @Id
     @GeneratedValue
@@ -27,17 +27,9 @@ public class Client extends Customer {
     @LastModifiedDate
     private Instant updatedAt;
 
-    private String nickName;
-    private String login;
-    private String mail;
-    private String name;
-    private String patronymic;
-    private String surname;
-    private Boolean trust;
-    private Integer reviewRating;
-    private Integer activeRating;
-    private Boolean isBlock;
+    private Boolean like;
+    private UUID likedObjectId;
 
-    @OneToMany(mappedBy = "client")
-    private List<Review> reviews;
+    @Enumerated(EnumType.STRING)
+    private LikedObjectType likeType;
 }

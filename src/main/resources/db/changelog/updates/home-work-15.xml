@@ -1,0 +1,26 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="create tables" author="dbadmin">
+        <createTable tableName="client_like">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="created_at" type="datetime"/>
+            <column name="updated_at" type="datetime"/>
+            <column name="like" type="boolean"/>
+            <column name="liked_object_id" type="uuid"/>
+            <column name="like_type" type="varchar(15)"/>
+        </createTable>
+        <sql> ALTER TABLE client_like ADD CONSTRAINT check_likeType CHECK (like_type = 'NEWS'
+            OR like_type = 'REVIEW')
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>

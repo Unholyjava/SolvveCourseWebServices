@@ -15,7 +15,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @EntityListeners(AuditingEntityListener.class)
-public class ContentManager extends Customer{
+public class ContentManager extends Customer {
 
     @Id
     @GeneratedValue

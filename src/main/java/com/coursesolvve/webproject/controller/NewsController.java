@@ -22,7 +22,7 @@ public class NewsController {
 
     @GetMapping
     public List<NewsReadDTO> getNewsList(NewsFilter filter) {
-        return newsService.getNewsList(filter);
+        return newsService.getListOfNews(filter);
     }
 
     @GetMapping("/{Id}")

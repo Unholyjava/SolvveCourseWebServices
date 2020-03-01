@@ -51,7 +51,7 @@ public class NewsControllerTest {
         read.setId(UUID.randomUUID());
         read.setInfo("test");
         List<NewsReadDTO> expectedResult = List.of(read);
-        Mockito.when(newsService.getNewsList(newsFilter)).thenReturn(expectedResult);
+        Mockito.when(newsService.getListOfNews(newsFilter)).thenReturn(expectedResult);
 
         String resultJson = mvc.perform(get("/api/v1/content-managers/{content-managerId}")
                 .param("contentManagerId", newsFilter.getContentManagerId().toString())

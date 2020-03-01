@@ -3,7 +3,6 @@ package com.coursesolvve.webproject.service;
 import com.coursesolvve.webproject.domain.ContentManager;
 import com.coursesolvve.webproject.domain.News;
 import com.coursesolvve.webproject.dto.news.*;
-import com.coursesolvve.webproject.exception.EntityNotFoundException;
 import com.coursesolvve.webproject.repository.NewsRepository;
 import com.coursesolvve.webproject.repository.RepositoryHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,20 +25,20 @@ public class NewsService {
     private RepositoryHelper repositoryHelper;
 
     public NewsReadExtendedDTO getNews(UUID id) {
-        News news = getNewsRequired(id);
+        News news = repositoryHelper.getEntityRequired(News.class, id);
         return translationService.toReadExtended(news);
     }
 
-    public List<NewsReadDTO> getNewsList (NewsFilter filter) {
-        List<News> newsList = newsRepository.findByFilter(filter);
-        return newsList.stream().map(translationService::toRead).collect(Collectors.toList());
+    public List<NewsReadDTO> getListOfNews(NewsFilter filter) {
+        List<News> news = newsRepository.findByFilter(filter);
+        return news.stream().map(translationService::toRead).collect(Collectors.toList());
     }
 
-    public List<NewsReadDTO> getContentManagerNews (UUID contentManagerId) {
+    public List<NewsReadDTO> getContentManagerNews(UUID contentManagerId) {
         NewsFilter newsFilter = new NewsFilter();
         newsFilter.setContentManagerId(contentManagerId);
-        List<News> newsList = newsRepository.findByFilter(newsFilter);
-        return newsList.stream().map(translationService::toRead).collect(Collectors.toList());
+        List<News> news = newsRepository.findByFilter(newsFilter);
+        return news.stream().map(translationService::toRead).collect(Collectors.toList());
     }
 
     public NewsReadDTO createNews(NewsCreateDTO create) {
@@ -50,14 +49,14 @@ public class NewsService {
 
     public NewsReadDTO createNews(UUID contentManagerId, NewsCreateDTO create) {
         News news = translationService.toEntity(create);
-        news.setContentManager(repositoryHelper.getReferenceIfExist
-                (ContentManager.class, contentManagerId));
+        news.setContentManager(repositoryHelper.getReferenceIfExist(
+                ContentManager.class, contentManagerId));
         news = newsRepository.save(news);
         return translationService.toRead(news);
     }
 
     public NewsReadDTO patchNews(UUID id, NewsPatchDTO patch) {
-        News news = getNewsRequired(id);
+        News news = repositoryHelper.getEntityRequired(News.class, id);
 
         if (patch.getInfo() != null) {
             news.setInfo(patch.getInfo());
@@ -74,7 +73,7 @@ public class NewsService {
     }
 
     public NewsReadDTO updateNews(UUID id, NewsPutDTO put) {
-        News news = getNewsRequired(id);
+        News news = repositoryHelper.getEntityRequired(News.class, id);
 
         news.setInfo(put.getInfo());
         news.setNewsMistake(put.getNewsMistake());
@@ -84,12 +83,6 @@ public class NewsService {
     }
 
     public void deleteNews(UUID id) {
-        newsRepository.delete(getNewsRequired(id));
-    }
-
-    private News getNewsRequired(UUID id) {
-        return newsRepository.findById(id).orElseThrow(() -> {
-            throw new EntityNotFoundException(News.class, id);
-        });
+        newsRepository.delete(repositoryHelper.getEntityRequired(News.class, id));
     }
 }

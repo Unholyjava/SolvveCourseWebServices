@@ -88,7 +88,7 @@ public class FilmControllerTest {
         FilmCreateDTO create = new FilmCreateDTO();
         create.setName("Film_test2_create");
         create.setInfo("This information is only for test2_create");
-        create.setRatingFull(10.0);
+        create.setAverageRating(10.0);
         create.setTextMistake(false);
         create.setRelease(true);
 
@@ -110,7 +110,7 @@ public class FilmControllerTest {
         FilmPatchDTO patchDTO = new FilmPatchDTO();
         patchDTO.setName("Film_test2_create");
         patchDTO.setInfo("This information is only for test2_create");
-        patchDTO.setRatingFull(10.0);
+        patchDTO.setAverageRating(10.0);
         patchDTO.setTextMistake(false);
         patchDTO.setRelease(true);
 
@@ -133,7 +133,7 @@ public class FilmControllerTest {
         FilmPutDTO putDTO = new FilmPutDTO();
         putDTO.setName("Film_test2_create");
         putDTO.setInfo("This information is only for test2_create");
-        putDTO.setRatingFull(10.0);
+        putDTO.setAverageRating(10.0);
         putDTO.setTextMistake(false);
         putDTO.setRelease(true);
 
@@ -165,7 +165,7 @@ public class FilmControllerTest {
         read.setId(UUID.randomUUID());
         read.setName("Film_test1");
         read.setInfo("This information is only for test");
-        read.setRatingFull(10.0);
+        read.setAverageRating(10.0);
         read.setTextMistake(false);
         read.setRelease(true);
         return read;

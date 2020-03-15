@@ -1,6 +1,7 @@
 package com.coursesolvve.webproject.repository;
 
 import com.coursesolvve.webproject.domain.Client;
+import com.coursesolvve.webproject.domain.Film;
 import com.coursesolvve.webproject.domain.Review;
 import com.coursesolvve.webproject.domain.ReviewStatus;
 import org.junit.Assert;
@@ -31,6 +32,9 @@ public class ReviewRepositoryTest {
 
     @Autowired
     private ClientRepository clientRepository;
+
+    @Autowired
+    private FilmRepository filmRepository;
 
     @Test
     public void testSave() {
@@ -94,6 +98,20 @@ public class ReviewRepositoryTest {
         Assert.assertTrue(updatedAtAfterReload.isAfter(updatedAtBeforeReload));
     }
 
+    @Test
+    public void testCalcAverageRating() {
+        Client client = createClient();
+        Film film1 = createFilm();
+        Film film2 = createFilm();
+
+        createReview(client, film1, 4);
+        createReview(client, film1, 9);
+        createReview(client, film1, (Integer)null);
+        createReview(client, film2, 3);
+
+        Assert.assertEquals(6.5, reviewRepository.calcAverageRatingOfFilm(film1.getId()), Double.MIN_NORMAL);
+    }
+
     private Client createClient() {
         Client client = new Client();
         client.setNickName("Client_test1");
@@ -108,5 +126,31 @@ public class ReviewRepositoryTest {
         client.setIsBlock(false);
         client = clientRepository.save(client);
         return client;
+    }
+
+    private Film createFilm() {
+        Film film = new Film();
+        film.setName("Film_test1");
+        film.setInfo("This information is only for test");
+        film.setAverageRating(10.0);
+        film.setTextMistake(false);
+        film.setRelease(true);
+        film = filmRepository.save(film);
+        return film;
+    }
+
+    private Review createReview(Client client, Film film, Integer filmRating) {
+        Review review = new Review();
+        review.setClient(client);
+        review.setFilm(film);
+        review.setFilmRating(filmRating);
+        review.setReviewStatus(ReviewStatus.NEW);
+        review.setFilmReview("film-review_test1");
+        review.setRoleReview("role-review_test1");
+        review.setReviewMistake(Boolean.FALSE);
+        review.setLikeRating(9);
+        review.setDataReview(Instant.now());
+        review = reviewRepository.save(review);
+        return review;
     }
 }

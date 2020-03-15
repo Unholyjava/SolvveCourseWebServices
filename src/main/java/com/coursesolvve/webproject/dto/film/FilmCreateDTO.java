@@ -10,7 +10,7 @@ import lombok.Setter;
 public class FilmCreateDTO {
     private String name;
     private String info;
-    private Double ratingFull;
+    private Double averageRating;
     private Boolean textMistake;
     private Boolean release;
 }

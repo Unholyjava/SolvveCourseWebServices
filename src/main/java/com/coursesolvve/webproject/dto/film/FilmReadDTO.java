@@ -16,7 +16,7 @@ public class FilmReadDTO {
     private Instant updatedAt;
     private String name;
     private String info;
-    private Double ratingFull;
+    private Double averageRating;
     private Boolean textMistake;
     private Boolean release;
 }

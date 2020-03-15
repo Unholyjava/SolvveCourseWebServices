@@ -36,7 +36,7 @@
             <column name="id" type="uuid"/>
             <column name="name" type="string"/>
             <column name="info" type="string"/>
-            <column name="rating_full" type="numeric"/>
+            <column name="average_rating" type="numeric"/>
             <column name="text_mistake" type="boolean"/>
             <column name="release" type="boolean"/>
         </loadUpdateData>

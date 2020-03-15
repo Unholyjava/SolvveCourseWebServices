@@ -39,4 +39,7 @@ public class Review {
     @ManyToOne
     @JoinColumn(nullable = false, updatable = false)
     private Client client;
+
+    @ManyToOne
+    private Film film;
 }

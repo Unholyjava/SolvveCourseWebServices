@@ -1,4 +1,4 @@
-id;name;info;rating_full;text_mistake;release
+id;name;info;average_rating;text_mistake;release
 86fabad6-34c8-4a1c-9263-4d6ecc7b2e18;Matrix;1999;9;true;true
 f15aa538-3160-4dc6-b96e-6ddc0f5ab5ed;Terminator-1;1984;8;false;true
 fa611305-6d38-40ea-b7d3-f19921e7b3a2;Titanic;1997;7;false;true
